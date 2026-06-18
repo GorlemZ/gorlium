@@ -4,7 +4,7 @@ import {
   Columns,
   PostSection,
   Stack,
-} from "@gorliumbento/design-system";
+} from "@gorlium/design-system";
 
 import { useTranslation } from "react-i18next";
 function Lore() {

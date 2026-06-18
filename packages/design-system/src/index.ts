@@ -1,26 +1,41 @@
-// Export the Bento components you want to use in your app
-import "./theme.scss";
-import "@buildo/bento-design-system/index.css";
+// Gorlium design system — digital brutalism. Self-contained, no Bento.
+import "./tokens/tokens.css";
+import "./styles.css";
 
-export * from "@buildo/bento-design-system";
+// Primitives
+export * from "./primitives/Box";
+export * from "./primitives/Stack";
+export * from "./primitives/Inline";
+export * from "./primitives/Columns";
+export * from "./primitives/Tiles";
+export * from "./primitives/Text";
+export * from "./primitives/Button";
+export * from "./primitives/Link";
 
+// Form
+export * from "./form/Form";
+export * from "./form/FormSection";
+export * from "./form/TextField";
+export * from "./form/TextArea";
+
+// Types
+export * from "./types";
+
+// Provider
+export { default as GorliumProvider } from "./provider/GorliumProvider";
+
+// Custom components
 import Header from "./components/Header";
 export { Header };
 
 import GorliumImage from "./components/GorliumImage";
 export { GorliumImage };
-// // Export any other custom component
-// export * from "./components/MyCustomComponent/MyCustomComponent";
 
 import Banner from "./components/Banner";
 export { Banner };
 
 import PostSection from "./components/PostSection";
-import WeirdFlex from "./components/WeirdFlex";
 export { PostSection };
 
-// You can use the createBentoProvider facility to create a BentoProvider with
-// your custom config, theme and sprinkles (see the section about Customization to learn about these)
-// export const BentoProvider = createBentoProvider();
-export { defaultMessages } from "@buildo/bento-design-system/defaultMessages/en";
+import WeirdFlex from "./components/WeirdFlex";
 export { WeirdFlex };

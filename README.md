@@ -1,28 +1,38 @@
-# Gorlium Bento
+# Gorlium
 
-Gorlium is a web application built with a variety of technologies, written as a frontend exercise to learn about [Bento](https://www.bento-ds.com/). This README will guide you through the technologies used and how to run the application locally.
+Gorlium is a personal web application about terrariums. It ships with its own
+in-house **design system** built in a *digital brutalism* style — dark
+background, hard edges, stark borders and hard-offset shadows, monospace
+typography.
 
-## Technologies Used: **React, TypeScript, Vite, Vanilla Extract, TurboRepo**
+The component library is authored locally and kept in sync with a
+[Claude Design](https://claude.ai/design) project (via the `/design-sync`
+workflow) used as the design canvas and preview surface.
+
+## Technologies: **React, TypeScript, Vite, TurboRepo**
 
 ## Project Structure
-
-As suggested [HERE](https://developer.bento-ds.com/Getting%20Started/project-structure), the project structure is the following:
 
 ```
 .
 ├── packages/
-│   ├── app/
+│   ├── app/                # React app (pages, routing, i18n)
 │   │   ├── src/
-│   │   ├── public/
+│   │   ├── index.html
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── vite.config.ts
-│   ├── design-system/
+│   ├── design-system/      # @gorlium/design-system — proprietary, no external DS
 │   │   ├── src/
+│   │   │   ├── tokens/      # design tokens (CSS custom properties)
+│   │   │   ├── styles.css   # global .g-* component styles
+│   │   │   ├── primitives/  # Box, Stack, Inline, Columns, Tiles, Text, Button, Link
+│   │   │   ├── form/        # Form, FormSection, TextField, TextArea
+│   │   │   ├── provider/    # GorliumProvider (theme scope)
+│   │   │   └── components/  # Header, Banner, PostSection, GorliumImage, WeirdFlex
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── tsup.config.ts
-├── .gitignore
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── turbo.json
@@ -33,51 +43,36 @@ As suggested [HERE](https://developer.bento-ds.com/Getting%20Started/project-str
 
 ### Prerequisites
 
-Make sure you have the following installed:
-
-- Node.js (>= 14.0.0)
-- PNPM (>= 6.0.0)
+- Node.js (>= 20)
+- PNPM (>= 8)
 
 ### Installation
 
-1. Clone the repository:
-
 ```sh
-git clone https://github.com/yourusername/gorlium-bento.git
-cd gorlium-bento
-```
-
-2. Install dependencies:
-
-```sh
+git clone https://github.com/GorlemZ/gorlium.git
+cd gorlium
 pnpm install
 ```
 
 ### Running the Application
 
-Start the app:
-
 ```sh
-pnpm build
 pnpm start
 ```
 
-This will locally build and start the app.
+This starts the design-system watcher and the app dev server via Turbo.
+Use `pnpm build` to produce a production build.
 
-## Contributing
+## Design system
 
-Contributions are welcome! Please open an issue or submit a pull request.
+`@gorlium/design-system` is fully self-contained: design tokens live in
+`src/tokens/tokens.css`, component styling in `src/styles.css` (namespaced
+`.g-*` classes), and the public API (primitives, form fields, layout and custom
+components) is re-exported from `src/index.ts`. Wrap the app in
+`<GorliumProvider>` to apply the theme scope.
 
 ## Deployment
 
-Deployment is handled automatically by Netlify using the Netlify GitHub App integration.
-
-### How it works
-
-- When you push changes to the `main` branch, Netlify detects the update via the GitHub App (not a webhook).
-- Netlify pulls the latest code, runs the build command, and deploys the result to the live site.
-- No manual configuration of webhooks is required; the integration is managed through the Netlify dashboard.
-
-### Customization
-
-Build settings and environment variables can be configured in the Netlify dashboard or in the `netlify.toml` file.
+Deployment is handled automatically by Netlify via the Netlify GitHub App
+integration: pushing to `main` triggers a build and deploy. Build settings and
+environment variables are configured in the Netlify dashboard or `netlify.toml`.

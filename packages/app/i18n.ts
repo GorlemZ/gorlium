@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { LocalizedString } from "@gorliumbento/design-system";
+import { LocalizedString } from "@gorlium/design-system";
 import enMessages from "./src/locales/en.json";
 import itMessages from "./src/locales/it.json";
 

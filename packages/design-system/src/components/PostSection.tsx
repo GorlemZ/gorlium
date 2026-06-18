@@ -1,6 +1,8 @@
-import { Body, Box, Column, Columns, Title } from "@buildo/bento-design-system";
-import GorliumImage from "./GorliumImage";
 import { ComponentProps } from "react";
+import { Body, Title } from "../primitives/Text";
+import { Box } from "../primitives/Box";
+import { Column, Columns } from "../primitives/Columns";
+import GorliumImage from "./GorliumImage";
 
 interface PostSectionProps {
   imgPath?: string;

@@ -4,7 +4,7 @@ import {
   Title,
   Inline,
   Stack,
-} from "@gorliumbento/design-system";
+} from "@gorlium/design-system";
 import Homepage from "./pages/Homepage";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Lore from "./pages/Lore";

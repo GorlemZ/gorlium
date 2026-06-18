@@ -15,8 +15,7 @@
         "forceConsistentCasingInFileNames": true
     },
     "include": [
-        "src/**/*",
-        "jsxShim.ts"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules"

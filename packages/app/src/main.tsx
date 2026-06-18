@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { BentoProvider, defaultMessages } from "@gorliumbento/design-system";
+import { GorliumProvider } from "@gorlium/design-system";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BentoProvider defaultMessages={defaultMessages}>
+    <GorliumProvider>
       <App />
-    </BentoProvider>
+    </GorliumProvider>
   </StrictMode>
 );

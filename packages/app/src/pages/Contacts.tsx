@@ -5,7 +5,7 @@ import {
   TextField,
   TextArea,
   Title,
-} from "@gorliumbento/design-system";
+} from "@gorlium/design-system";
 import React from "react";
 import { useTranslation } from "react-i18next";
 

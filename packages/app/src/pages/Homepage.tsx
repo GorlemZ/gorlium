@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, GorliumImage } from "@gorliumbento/design-system";
+import { Box, GorliumImage } from "@gorlium/design-system";
 import terrario2 from "../assets/Terrario2.png";
 import logo from "../assets/croppedLogoDark.png";
 

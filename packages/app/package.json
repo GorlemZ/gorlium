@@ -1,5 +1,5 @@
 {
-  "name": "@gorliumbento/app",
+  "name": "@gorlium/app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "start": "vite"
   },
   "dependencies": {
-    "@gorliumbento/design-system": "workspace:*",
+    "@gorlium/design-system": "workspace:*",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
     "connect-history-api-fallback": "^2.0.0",

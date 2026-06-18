@@ -9,7 +9,7 @@ import {
   Stack,
   Title,
   WeirdFlex,
-} from "@gorliumbento/design-system";
+} from "@gorlium/design-system";
 
 import { useTranslation } from "react-i18next";
 import styles from "./Instructions.module.css";

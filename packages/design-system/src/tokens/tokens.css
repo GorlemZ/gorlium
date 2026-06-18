@@ -1,0 +1,49 @@
+/* Gorlium design tokens — digital brutalism */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+  /* Colors */
+  --g-bg: #0b0b0b;
+  --g-surface: #141414;
+  --g-surface-2: #1c1c1c;
+  --g-ink: #ececec;
+  --g-ink-dim: #8a8a8a;
+  --g-accent: #c9f24d; /* acid lime — living/terrarium + digital */
+  --g-accent-2: #ff5a1f; /* terracotta — nod to the old brand */
+  --g-border: #2e2e2e;
+  --g-border-strong: #ececec;
+
+  /* Shape & edges (hard) */
+  --g-radius: 0px;
+  --g-bw: 2px;
+
+  /* Brutalist hard-offset shadows (no blur, no gradients) */
+  --g-shadow: 4px 4px 0 0 var(--g-ink);
+  --g-shadow-accent: 4px 4px 0 0 var(--g-accent);
+
+  /* Typography */
+  --g-font-display: "Space Grotesk", system-ui, sans-serif;
+  --g-font-mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Space scale (same numeric tokens as before: 0/4/8/12/16/24/32/40/80) */
+  --g-space-0: 0px;
+  --g-space-4: 4px;
+  --g-space-8: 8px;
+  --g-space-12: 12px;
+  --g-space-16: 16px;
+  --g-space-24: 24px;
+  --g-space-32: 32px;
+  --g-space-40: 40px;
+  --g-space-80: 80px;
+}
+
+html,
+body {
+  margin: 0;
+  background-color: var(--g-bg);
+}
+
+body {
+  color: var(--g-ink);
+  font-family: var(--g-font-mono);
+}

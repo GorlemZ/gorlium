@@ -5,7 +5,7 @@ import {
   Columns,
   PostSection,
   Stack,
-} from "@gorliumbento/design-system";
+} from "@gorlium/design-system";
 import terrario2 from "../assets/Terrario1.png";
 import fila1 from "../assets/Fila1cropped.png";
 import patrick from "../assets/Patrizio.png";

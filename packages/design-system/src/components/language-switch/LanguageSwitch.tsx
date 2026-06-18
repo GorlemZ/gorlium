@@ -1,4 +1,7 @@
-import { Box, Button, Inline } from "@buildo/bento-design-system";
+import { Box } from "../../primitives/Box";
+import { Button } from "../../primitives/Button";
+import { Inline } from "../../primitives/Inline";
+
 interface LanguageSwitchProps {
   onChange: () => void;
   initialLanguage: "en" | "it";

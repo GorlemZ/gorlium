@@ -1,0 +1,276 @@
+/* Gorlium global component styles — namespaced .g-* (no CSS Modules) */
+
+/* ===== Root / scope reset ===== */
+.g-root {
+  background-color: var(--g-bg);
+  color: var(--g-ink);
+  font-family: var(--g-font-mono);
+  min-height: 100vh;
+}
+.g-root,
+.g-root *,
+.g-root *::before,
+.g-root *::after {
+  box-sizing: border-box;
+}
+
+/* ===== Typography ===== */
+.g-title {
+  margin: 0;
+  font-family: var(--g-font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--g-ink);
+}
+.g-title--large {
+  font-size: 4vh;
+  line-height: 4.2vh;
+}
+.g-title--medium {
+  font-size: 3vh;
+  line-height: 3.2vh;
+}
+.g-title--small {
+  font-size: 2vh;
+  line-height: 2.6vh;
+}
+
+.g-body {
+  font-family: var(--g-font-mono);
+  color: var(--g-ink);
+  font-size: 2vh;
+  line-height: 2.2vh;
+}
+.g-body--small {
+  font-size: 1.6vh;
+  line-height: 1.8vh;
+}
+.g-body--medium {
+  font-size: 2vh;
+  line-height: 2.2vh;
+}
+.g-body--large {
+  font-size: 2.4vh;
+  line-height: 2.6vh;
+}
+.g-body p {
+  margin: 0 0 1em;
+}
+.g-form__desc {
+  color: var(--g-ink-dim);
+}
+
+/* ===== Button ===== */
+.g-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-family: var(--g-font-mono);
+  font-weight: 700;
+  font-size: 1.8vh;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: var(--g-bw) solid var(--g-ink);
+  border-radius: var(--g-radius);
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease,
+    background-color 0.08s ease, color 0.08s ease;
+}
+.g-btn--solid {
+  background: var(--g-accent);
+  color: #0b0b0b;
+  box-shadow: var(--g-shadow);
+}
+.g-btn--solid:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--g-ink);
+}
+.g-btn--solid:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0 0 var(--g-ink);
+}
+.g-btn--transparent {
+  background: transparent;
+  color: var(--g-ink);
+  border-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+}
+.g-btn--transparent:hover {
+  color: var(--g-accent);
+  text-decoration: underline;
+}
+.g-btn--large {
+  font-size: 2vh;
+  padding: 12px 22px;
+}
+
+/* ===== Link ===== */
+.g-link {
+  color: var(--g-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.g-link:hover {
+  color: #0b0b0b;
+  background: var(--g-accent);
+}
+
+/* ===== Stack dividers ===== */
+.g-stack--dividers > * + * {
+  border-top: var(--g-bw) solid var(--g-border);
+}
+
+/* ===== Tiles (responsive grid) ===== */
+.g-tiles {
+  display: grid;
+  grid-template-columns: repeat(var(--g-tiles-mobile, 1), minmax(0, 1fr));
+}
+@media (min-width: 768px) {
+  .g-tiles {
+    grid-template-columns: repeat(
+      var(--g-tiles-tablet, var(--g-tiles-mobile, 1)),
+      minmax(0, 1fr)
+    );
+  }
+}
+@media (min-width: 1024px) {
+  .g-tiles {
+    grid-template-columns: repeat(
+      var(--g-tiles-desktop, var(--g-tiles-tablet, 1)),
+      minmax(0, 1fr)
+    );
+  }
+}
+@media (min-width: 1440px) {
+  .g-tiles {
+    grid-template-columns: repeat(
+      var(--g-tiles-wide, var(--g-tiles-desktop, 1)),
+      minmax(0, 1fr)
+    );
+  }
+}
+
+/* ===== Columns (collapse + reverse) ===== */
+.g-columns {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+.g-columns--collapse-desktop {
+  flex-direction: column;
+}
+@media (min-width: 1024px) {
+  .g-columns--collapse-desktop {
+    flex-direction: row;
+  }
+  .g-columns--collapse-desktop.g-columns--reverse-desktop {
+    flex-direction: row-reverse;
+  }
+}
+
+/* ===== Inline (minimal responsive; used only by LanguageSwitch) ===== */
+.g-inline {
+  display: flex;
+  flex-direction: row;
+}
+.g-inline--collapse-desktop {
+  flex-direction: column;
+}
+@media (min-width: 1024px) {
+  .g-inline--collapse-desktop {
+    flex-direction: row;
+  }
+}
+
+/* ===== Header ===== */
+.g-header {
+  border-bottom: var(--g-bw) solid var(--g-ink);
+}
+.g-header__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8vh;
+  padding: 16px;
+  cursor: pointer;
+  border-right: var(--g-bw) solid var(--g-border);
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+.g-header__cell:hover {
+  background: var(--g-accent);
+}
+.g-header__cell:hover .g-header__link {
+  color: #0b0b0b;
+}
+.g-header__link {
+  color: var(--g-ink);
+  text-decoration: none;
+  font-family: var(--g-font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 2.4vh;
+}
+
+/* ===== Form ===== */
+.g-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+  padding: 24px;
+  background: var(--g-surface);
+  border: var(--g-bw) solid var(--g-ink);
+  box-shadow: var(--g-shadow);
+}
+.g-form__error {
+  padding: 8px 12px;
+  font-weight: 700;
+  background: var(--g-accent-2);
+  color: #0b0b0b;
+  border: var(--g-bw) solid var(--g-ink);
+}
+.g-form__error--fill {
+  width: 100%;
+}
+.g-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.g-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.g-field__label {
+  font-family: var(--g-font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1.4vh;
+  color: var(--g-ink-dim);
+}
+.g-input,
+.g-textarea {
+  background: var(--g-surface-2);
+  color: var(--g-ink);
+  border: var(--g-bw) solid var(--g-border);
+  border-radius: var(--g-radius);
+  font-family: var(--g-font-mono);
+  font-size: 2vh;
+  padding: 10px 12px;
+  outline: none;
+}
+.g-input:focus,
+.g-textarea:focus {
+  border-color: var(--g-accent);
+}
+.g-textarea {
+  resize: vertical;
+}

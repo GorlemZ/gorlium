@@ -7,7 +7,7 @@ import {
   Inline,
   PostSection,
   Stack,
-} from "@gorliumbento/design-system";
+} from "@gorlium/design-system";
 import githublogo from "../assets/github-mark-white.png";
 import { useTranslation } from "react-i18next";
 
@@ -33,7 +33,7 @@ function Dev() {
               size="large"
               onPress={() =>
                 window.open(
-                  "https://github.com/GorlemZ/gorlium-bento",
+                  "https://github.com/GorlemZ/gorlium",
                   "_blank"
                 )
               }

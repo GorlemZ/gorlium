@@ -1,10 +1,10 @@
-import { Box } from "@buildo/bento-design-system";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
+import { Box } from "../primitives/Box";
 
 interface GorliumImageProps {
   path: string;
   opacity?: number;
-  children?: React.ReactNode;
+  children?: ReactNode;
   height?: string;
 }
 
