@@ -27,8 +27,9 @@ Repo-specific gotchas for future syncs.
 - **`Header` / `PostSection`**: compound components expecting structured data (list of [label,href], text arrays) — compose from real app page examples.
 
 ## Scope decision (this run)
-- **Minimal mode**: all 20 components shipped with the deterministic **floor card** (functional + `.d.ts` + `.prompt.md`); no example previews authored. Rich previews can be authored on any future re-sync (per-component, in `.design-sync/previews/<Name>.tsx`).
+- Started minimal (floor cards), then authored **rich previews for all 20 components** in `.design-sync/previews/*.tsx` (committed). Stories ported from the app pages (Homepage/Lore/Terrariums/Dev/Instructions/Contacts) + locales.
 - Conventions header authored (`.design-sync/conventions.md`, wired via `readmeHeader`) — teaches the Claude Design agent the provider wrap + `.g-*` idiom + tokens.
+- Previews compile clean (20 user-owned, 0 failed) but were **NOT machine-verified** (render check skipped — no Playwright). Reviewed via local `.review.html`. Image-based previews (PostSection/GorliumImage) use an inline SVG data-URI placeholder since app asset paths don't resolve in cards.
 
 ## Re-sync risks
 - If Playwright is installed on a future run, drop `--no-render-check` to machine-verify previews. The driver (`resync.mjs`) chains capture which needs Playwright — without it, run `package-build.mjs` + `package-validate.mjs --no-render-check` manually instead of the one-command driver.
