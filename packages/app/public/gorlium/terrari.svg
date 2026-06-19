@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="236" viewBox="0 0 320 236">
+  <defs>
+    <pattern id="p" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="13" height="26" fill="#8faa57" opacity="0.14"></rect>
+    </pattern>
+  </defs>
+  <rect width="320" height="236" fill="#1b2a1e"></rect>
+  <rect width="320" height="236" fill="url(#p)"></rect>
+  <rect x="8" y="8" width="304" height="220" fill="none" stroke="#8faa57" stroke-width="2" opacity="0.5"></rect>
+  <text x="20" y="216" font-family="&#39;Space Mono&#39;, monospace" font-size="17" letter-spacing="2" fill="#8faa57" opacity="0.9">TERRARI</text>
+</svg>
