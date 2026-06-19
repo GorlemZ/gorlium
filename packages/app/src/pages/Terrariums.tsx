@@ -1,11 +1,5 @@
 import { useEffect } from "react";
-import {
-  Box,
-  Column,
-  Columns,
-  PostSection,
-  Stack,
-} from "@gorlium/design-system";
+import { Box, Inline, PostSection, Stack } from "@gorlium/design-system";
 import terrario2 from "../assets/Terrario1.png";
 import fila1 from "../assets/Fila1cropped.png";
 import patrick from "../assets/Patrizio.png";
@@ -25,36 +19,34 @@ function Terrariums() {
   }, []);
 
   return (
-    <Columns space={0}>
-      <Column width="content">
-        <Box width={40}></Box>
-      </Column>
-      <Stack space={24} dividers={true}>
-        <PostSection
-          imgPath={terrario2}
-          imgSize={"1/2"}
-          title={t("terrariums.terrarium1.title")}
-          text={t("terrariums.terrarium1.content")}
-        ></PostSection>
-        <PostSection
-          imgAlignRight={true}
-          imgPath={fila1}
-          imgSize={"1/2"}
-          title={t("terrariums.terrarium2.title")}
-          text={t("terrariums.terrarium2.content")}
-        ></PostSection>
-        <PostSection
-          imgAlignRight={false}
-          imgPath={patrick}
-          imgSize={"1/2"}
-          title={t("terrariums.terrarium3.title")}
-          text={t("terrariums.terrarium3.content")}
-        ></PostSection>
-      </Stack>
-      <Column width="content">
-        <Box width={40}></Box>
-      </Column>
-    </Columns>
+    <Inline space={0}>
+      <Box width={40}></Box>
+      <Box width="fill">
+        <Stack space={24} dividers={true}>
+          <PostSection
+            imgPath={terrario2}
+            imgSize={"1/2"}
+            title={t("terrariums.terrarium1.title")}
+            text={t("terrariums.terrarium1.content")}
+          ></PostSection>
+          <PostSection
+            imgAlignRight={true}
+            imgPath={fila1}
+            imgSize={"1/2"}
+            title={t("terrariums.terrarium2.title")}
+            text={t("terrariums.terrarium2.content")}
+          ></PostSection>
+          <PostSection
+            imgAlignRight={false}
+            imgPath={patrick}
+            imgSize={"1/2"}
+            title={t("terrariums.terrarium3.title")}
+            text={t("terrariums.terrarium3.content")}
+          ></PostSection>
+        </Stack>
+      </Box>
+      <Box width={40}></Box>
+    </Inline>
   );
 }
 

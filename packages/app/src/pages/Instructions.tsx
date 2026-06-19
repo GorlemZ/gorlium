@@ -1,15 +1,4 @@
-import {
-  Body,
-  Box,
-  Column,
-  Columns,
-  GorliumImage,
-  Inline,
-  PostSection,
-  Stack,
-  Title,
-  WeirdFlex,
-} from "@gorlium/design-system";
+import { Body, Box, GorliumImage, Stack, Title } from "@gorlium/design-system";
 
 import { useTranslation } from "react-i18next";
 import styles from "./Instructions.module.css";

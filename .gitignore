@@ -32,3 +32,6 @@ ds-bundle/
 .design-sync/.cache/
 .design-sync/learnings/
 .design-sync/node_modules
+
+# Claude Code local settings (personal, incl. permission mode)
+.claude/settings.local.json

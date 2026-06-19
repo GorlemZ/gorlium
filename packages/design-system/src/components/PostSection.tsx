@@ -1,14 +1,14 @@
 import { ComponentProps } from "react";
 import { Body, Title } from "../primitives/Text";
-import { Box } from "../primitives/Box";
-import { Column, Columns } from "../primitives/Columns";
+import { Box, BoxWidth } from "../primitives/Box";
+import { Inline } from "../primitives/Inline";
 import GorliumImage from "./GorliumImage";
 
 interface PostSectionProps {
   imgPath?: string;
   title: string;
   text: string[];
-  imgSize?: ComponentProps<typeof Column>["width"];
+  imgSize?: BoxWidth;
   imgAlignRight?: boolean;
   children?: ComponentProps<typeof Body>["children"];
 }
@@ -26,31 +26,22 @@ function PostSection({
       <Title align={"left"} size="small">
         {title}
       </Title>
-      <Columns
-        space={16}
-        collapseBelow="desktop"
-        reverse={{
-          mobile: false,
-          tablet: false,
-          desktop: imgAlignRight ? imgAlignRight : false,
-          wide: imgAlignRight ? imgAlignRight : false,
-        }}
-      >
+      <Inline space={16} collapseBelow="desktop" reverse={imgAlignRight ?? false}>
         {imgPath && (
-          <Column width={imgSize ? imgSize : "1/5"}>
+          <Box width={imgSize ? imgSize : "1/5"}>
             <Box padding={8}></Box>
             <GorliumImage path={imgPath} />
-          </Column>
+          </Box>
         )}
-        <Column>
+        <Box width="fill">
           <Body size="medium" align="left">
             {text.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
             {children}
           </Body>
-        </Column>
-      </Columns>
+        </Box>
+      </Inline>
     </>
   );
 }
