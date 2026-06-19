@@ -1,1 +1,7 @@
+# Old flat URLs -> new nested terrarium-area paths (must precede the SPA catch-all)
+/instructions   /terrariums/how-to     301
+/contacts       /terrariums/contacts   301
+/dev            /terrariums/dev        301
+
+# SPA fallback
 /*    /index.html   200

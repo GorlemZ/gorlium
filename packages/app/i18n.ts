@@ -31,8 +31,8 @@ export const resources = {
 
 i18n.use(initReactI18next).init({
   resources, // Use only the predefined resources
-  lng: "it",
-  fallbackLng: "it",
+  lng: "en",
+  fallbackLng: "en",
   debug: true,
   interpolation: {
     escapeValue: false,
