@@ -9,30 +9,34 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-const sendMessageToTelegram = async (message: string) => {
+const sendMessageToTelegram = async (message: string): Promise<boolean> => {
   const telegramToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
   const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+  if (!telegramToken || !chatId) {
+    console.error(
+      "Telegram is not configured: set VITE_TELEGRAM_BOT_TOKEN and VITE_TELEGRAM_CHAT_ID at build time."
+    );
+    return false;
+  }
+
   const url = `https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
     message
   )}`;
 
   try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(url, { method: "GET" });
+    const data = await response.json().catch(() => null);
 
-    if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`);
+    if (!response.ok || !data?.ok) {
+      console.error("Telegram API error:", response.status, data);
+      return false;
     }
 
-    const data = await response.json();
-    return data;
+    return true;
   } catch (error) {
     console.error("Error sending message:", error);
-    throw error;
+    return false;
   }
 };
 
@@ -44,16 +48,27 @@ function Contacts() {
   const [error, setError] = React.useState("");
 
   const onSubmit = async () => {
-    if (name !== "" && message !== "") {
-      setIsSent(true);
-      sendMessageToTelegram(`FROM: ${name}\nMESSAGE:\n ${message}`);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setMessage("");
-      setName("");
-      setIsSent(false);
-    } else {
+    setError("");
+
+    if (name === "" || message === "") {
       setError(t("contacts.errorMessage"));
+      return;
     }
+
+    const delivered = await sendMessageToTelegram(
+      `FROM: ${name}\nMESSAGE:\n ${message}`
+    );
+
+    if (!delivered) {
+      setError(t("contacts.sendError"));
+      return;
+    }
+
+    setIsSent(true);
+    setMessage("");
+    setName("");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsSent(false);
   };
   return (
     <Stack space={0} dividers={true} align={"center"}>
@@ -85,7 +100,7 @@ function Contacts() {
             label={t("contacts.formMessage")}
             value={message}
             onChange={setMessage}
-            rows={10}
+            rows={4}
           />
         </FormSection>
       </Form>
