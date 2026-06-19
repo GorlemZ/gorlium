@@ -185,6 +185,7 @@
 /* ===== Header ===== */
 .g-header {
   border-bottom: var(--g-bw) solid var(--g-ink);
+  width: 100%;
 }
 .g-header__cell {
   display: flex;
@@ -195,6 +196,9 @@
   cursor: pointer;
   border-right: var(--g-bw) solid var(--g-border);
   transition: background-color 0.1s ease, color 0.1s ease;
+}
+.g-header__cell:last-child {
+  border-right: none;
 }
 .g-header__cell:hover {
   background: var(--g-accent);
@@ -210,6 +214,24 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 1.25rem;
+}
+
+/* On phones the 5 cells stack into one tall column; lay them out as compact
+   wrapping rows (3 + 2) at a smaller size instead. */
+@media (max-width: 767px) {
+  .g-header .g-tiles {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .g-header__cell {
+    flex: 1 1 33.333%;
+    min-height: 0;
+    padding: 12px 8px;
+  }
+  .g-header__link {
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
 }
 
 /* ===== Form ===== */
