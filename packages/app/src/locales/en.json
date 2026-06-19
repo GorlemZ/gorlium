@@ -12,6 +12,7 @@
       "formDescription": "Write me a message 💌 and remember to leave your contact info",
       "formTitle": "Do you want a terrarium?",
       "errorMessage": "Please fill in all the fields 🥲",
+      "sendError": "Sending failed, please try again later 😢",
       "successMessage": "SENT! 🌵🌵🌵",
       "formMessage": "Message",
       "formName": "Name",
