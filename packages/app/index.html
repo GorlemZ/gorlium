@@ -10,8 +10,14 @@
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      // Paint the right background before React mounts: the hub (/) is light,
+      // the terrarium area is dark. Avoids a flash of the wrong colour.
+      document.documentElement.style.backgroundColor =
+        location.pathname === "/" ? "#e4ded1" : "#0e1410";
+    </script>
   </head>
-  <body style="background-color: #0e1410">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
