@@ -1,12 +1,14 @@
 import { CSSProperties, ReactNode } from "react";
 import { spacePx } from "../lib/layout";
 
-type Columns = number | { mobile?: number; tablet?: number; desktop?: number; wide?: number };
+type TilesColumns =
+  | number
+  | { mobile?: number; tablet?: number; desktop?: number; wide?: number };
 
 export interface TilesProps {
   children?: ReactNode;
   space?: number;
-  columns?: Columns;
+  columns?: TilesColumns;
 }
 
 export function Tiles({ children, space = 0, columns = 1 }: TilesProps) {

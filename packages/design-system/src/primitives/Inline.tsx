@@ -10,16 +10,21 @@ export interface InlineProps {
   reverse?: Responsive<boolean>;
 }
 
+// Horizontal layout primitive. Proportional columns are expressed by giving
+// children a Box width ("content" | "1/2" | px | "fill"); Inline only handles
+// direction, gap, alignment, collapse and reverse.
 export function Inline({
   children,
   space = 0,
   alignY,
   align,
   collapseBelow,
+  reverse,
 }: InlineProps) {
   const a = pickResponsive(align);
   const classes = ["g-inline"];
   if (collapseBelow === "desktop") classes.push("g-inline--collapse-desktop");
+  if (pickResponsive(reverse)) classes.push("g-inline--reverse-desktop");
 
   const style: CSSProperties = {
     gap: spacePx(space),

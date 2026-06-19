@@ -1,0 +1,12 @@
+{
+  "projectId": "8e91b7c6-753a-4a54-bf34-cbb9a1662cd5",
+  "shape": "package",
+  "pkg": "@gorlium/design-system",
+  "globalName": "Gorlium",
+  "buildCmd": "pnpm -F \"@gorlium/design-system\" build",
+  "cssEntry": "dist/index.css",
+  "provider": {
+    "component": "GorliumProvider"
+  },
+  "readmeHeader": ".design-sync/conventions.md"
+}

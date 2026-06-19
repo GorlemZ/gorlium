@@ -6,7 +6,6 @@ import "./styles.css";
 export * from "./primitives/Box";
 export * from "./primitives/Stack";
 export * from "./primitives/Inline";
-export * from "./primitives/Columns";
 export * from "./primitives/Tiles";
 export * from "./primitives/Text";
 export * from "./primitives/Button";
@@ -24,7 +23,7 @@ export * from "./types";
 // Provider
 export { default as GorliumProvider } from "./provider/GorliumProvider";
 
-// Custom components
+// Components
 import Header from "./components/Header";
 export { Header };
 
@@ -37,5 +36,7 @@ export { Banner };
 import PostSection from "./components/PostSection";
 export { PostSection };
 
-import WeirdFlex from "./components/WeirdFlex";
-export { WeirdFlex };
+export * from "./components/Card";
+export * from "./components/Badge";
+export * from "./components/Callout";
+export * from "./components/Tabs";

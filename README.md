@@ -26,10 +26,10 @@ workflow) used as the design canvas and preview surface.
 │   │   ├── src/
 │   │   │   ├── tokens/      # design tokens (CSS custom properties)
 │   │   │   ├── styles.css   # global .g-* component styles
-│   │   │   ├── primitives/  # Box, Stack, Inline, Columns, Tiles, Text, Button, Link
+│   │   │   ├── primitives/  # Box, Stack, Inline, Tiles, Text, Button, Link
 │   │   │   ├── form/        # Form, FormSection, TextField, TextArea
 │   │   │   ├── provider/    # GorliumProvider (theme scope)
-│   │   │   └── components/  # Header, Banner, PostSection, GorliumImage, WeirdFlex
+│   │   │   └── components/  # Header, Banner, PostSection, GorliumImage, Card, Badge, Callout, Tabs
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── tsup.config.ts

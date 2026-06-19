@@ -1,17 +1,17 @@
-/* Gorlium design tokens — digital brutalism */
+/* Gorlium design tokens — digital brutalism, "Moss" palette (earth & nature) */
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap");
 
 :root {
-  /* Colors */
-  --g-bg: #0b0b0b;
-  --g-surface: #141414;
-  --g-surface-2: #1c1c1c;
-  --g-ink: #ececec;
-  --g-ink-dim: #8a8a8a;
-  --g-accent: #c9f24d; /* acid lime — living/terrarium + digital */
-  --g-accent-2: #ff5a1f; /* terracotta — nod to the old brand */
-  --g-border: #2e2e2e;
-  --g-border-strong: #ececec;
+  /* Colors — Moss */
+  --g-bg: #0e1410; /* canvas — warm near-black green */
+  --g-surface: #161e18; /* surfaces */
+  --g-surface-2: #1f2a22; /* raised surfaces / inputs */
+  --g-ink: #eef0e8; /* text */
+  --g-ink-dim: #93a08f; /* secondary text */
+  --g-accent: #8ab560; /* leaf green (primary accent) */
+  --g-accent-2: #d98a3d; /* clay (secondary accent) */
+  --g-border: #2a342c; /* borders */
+  --g-border-strong: #eef0e8;
 
   /* Shape & edges (hard) */
   --g-radius: 0px;
@@ -25,7 +25,7 @@
   --g-font-display: "Space Grotesk", system-ui, sans-serif;
   --g-font-mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
 
-  /* Space scale (same numeric tokens as before: 0/4/8/12/16/24/32/40/80) */
+  /* Space scale (px tokens: 0/4/8/12/16/24/32/40/80) */
   --g-space-0: 0px;
   --g-space-4: 4px;
   --g-space-8: 8px;

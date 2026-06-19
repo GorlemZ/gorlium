@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  Column,
-  Columns,
   IconProps,
   Inline,
   PostSection,
@@ -17,34 +15,29 @@ function Dev() {
   };
   const { t } = useTranslation();
   return (
-    <Columns space={0}>
-      <Column width="content">
-        <Box width={40}></Box>
-      </Column>
-      <Stack space={24} dividers={true}>
-        <PostSection title={t("dev.dev1.title")} text={t("dev.dev1.content")}>
-          <Inline space={8} alignY={"center"}>
-            👉
-            <Button
-              icon={iconP}
-              label={t("dev.dev1.linkText")}
-              kind="transparent"
-              hierarchy="primary"
-              size="large"
-              onPress={() =>
-                window.open(
-                  "https://github.com/GorlemZ/gorlium",
-                  "_blank"
-                )
-              }
-            ></Button>
-          </Inline>
-        </PostSection>
-      </Stack>
-      <Column width="content">
-        <Box width={40}></Box>
-      </Column>
-    </Columns>
+    <Inline space={0}>
+      <Box width={40}></Box>
+      <Box width="fill">
+        <Stack space={24} dividers={true}>
+          <PostSection title={t("dev.dev1.title")} text={t("dev.dev1.content")}>
+            <Inline space={8} alignY={"center"}>
+              👉
+              <Button
+                icon={iconP}
+                label={t("dev.dev1.linkText")}
+                kind="transparent"
+                hierarchy="primary"
+                size="large"
+                onPress={() =>
+                  window.open("https://github.com/GorlemZ/gorlium", "_blank")
+                }
+              ></Button>
+            </Inline>
+          </PostSection>
+        </Stack>
+      </Box>
+      <Box width={40}></Box>
+    </Inline>
   );
 }
 
