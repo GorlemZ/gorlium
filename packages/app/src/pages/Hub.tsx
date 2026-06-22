@@ -146,7 +146,7 @@ function Hub() {
           </div>
         ) : (
           /* ---------- desktop: decentred list + hover preview ---------- */
-          <div ref={contentRef} style={{ position: "relative", flex: 1, minHeight: "58vh", margin: "38px clamp(28px,5vw,64px) 0" }}>
+          <div ref={contentRef} style={{ position: "relative", flex: "1 0 auto", minHeight: "58vh", margin: "38px clamp(28px,5vw,64px) 0" }}>
             {/* preview: image + description, tracks the active row */}
             <div
               style={{
@@ -178,8 +178,10 @@ function Hub() {
               {cur ? cur.name : ""}
             </div>
 
-            {/* decentered list */}
-            <div style={{ position: "absolute", left: "54%", top: 6, width: "min(330px, 42vw)", zIndex: 18 }}>
+            {/* decentered list — kept in normal flow so it drives the content
+                height; when the viewport is short/zoomed the page scrolls
+                instead of the list being clipped under the footer. */}
+            <div style={{ position: "relative", marginLeft: "54%", paddingTop: 6, width: "min(330px, 42vw)", zIndex: 18 }}>
               <div style={{ font: `800 16px/1 ${sans}`, letterSpacing: "-.005em", color: INK, marginBottom: 40 }}>My worlds</div>
 
               {WORLDS.map((it, i) => {
