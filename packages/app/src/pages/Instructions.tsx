@@ -58,7 +58,7 @@ function SingleInstruction({
   );
 }
 
-function CondensationInstructions() {
+function CondensationInstructions({ index }: { index: number }) {
   function CondensationCard({
     imgPath,
     content,
@@ -84,7 +84,7 @@ function CondensationInstructions() {
     <>
       <Box style={{ marginTop: "3vh" }}>
         <Title align={"left"} size="medium">
-          {`2. ${t("instructions.step2.title")}`}
+          {`${index}. ${t("instructions.condensation.title")}`}
         </Title>
       </Box>
       <Box
@@ -97,21 +97,21 @@ function CondensationInstructions() {
         }}
       >
         <Body size="medium" align="left">
-          {t("instructions.step2.content", { returnObjects: true })[0]}
+          {t("instructions.condensation.content", { returnObjects: true })[0]}
         </Body>
       </Box>
       <div className={styles["three-columns-container"]}>
         <CondensationCard
           imgPath={half}
-          content={t("instructions.step2.content", { returnObjects: true })[1]}
+          content={t("instructions.condensation.content", { returnObjects: true })[1]}
         />
         <CondensationCard
           imgPath={empty}
-          content={t("instructions.step2.content", { returnObjects: true })[2]}
+          content={t("instructions.condensation.content", { returnObjects: true })[2]}
         />
         <CondensationCard
           imgPath={full}
-          content={t("instructions.step2.content", { returnObjects: true })[3]}
+          content={t("instructions.condensation.content", { returnObjects: true })[3]}
         />
       </div>
     </>
@@ -133,15 +133,15 @@ export function Instructions() {
     >
       <SingleInstruction
         index={1}
-        title={t("instructions.step3.title")}
-        content={t("instructions.step3.content", { returnObjects: true })}
+        title={t("instructions.maintenance.title")}
+        content={t("instructions.maintenance.content", { returnObjects: true })}
       />
-      <CondensationInstructions />
+      <CondensationInstructions index={2} />
       <SingleInstruction
         imgPath={instruction1}
         index={3}
-        title={t("instructions.step1.title")}
-        content={t("instructions.step1.content", { returnObjects: true })}
+        title={t("instructions.placement.title")}
+        content={t("instructions.placement.content", { returnObjects: true })}
       />
     </div>
   );

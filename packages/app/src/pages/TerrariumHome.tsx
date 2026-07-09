@@ -2,13 +2,10 @@ import { useEffect } from "react";
 import { Box, GorliumImage } from "@gorlium/design-system";
 import terrario2 from "../assets/Terrario2.png";
 import logo from "../assets/croppedLogoDark.png";
+import { preloadImage } from "../lib/preloadImage";
 
-function preloadImage(url: string) {
-  const img = new Image();
-  img.src = url;
-}
-
-function Homepage() {
+// Landing hero of the terrarium area (mounted at /terrariums).
+function TerrariumHome() {
   useEffect(() => {
     preloadImage(terrario2);
     preloadImage(logo);
@@ -27,4 +24,4 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default TerrariumHome;

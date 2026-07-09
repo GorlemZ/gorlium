@@ -13,7 +13,6 @@
     "@gorlium/design-system": "workspace:*",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
-    "connect-history-api-fallback": "^2.0.0",
     "i18next": "^24.2.2",
     "i18next-http-backend": "^3.0.2",
     "react": "18.3.1",

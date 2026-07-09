@@ -11,7 +11,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
  * Desktop keeps the original hover layout (decentred list + bleeding giant
  * title + floating preview). On narrow screens hover doesn't exist and the
  * absolute positioning overlaps, so we render a simple stacked, always-on list
- * instead. Only enabled worlds navigate on click.
+ * instead (HubDesktopList / HubMobileList below). Only enabled worlds navigate.
  */
 
 const INK = "#15140f";
@@ -58,6 +58,142 @@ function useIsMobile() {
   return isMobile;
 }
 
+// Mobile: a stacked, always-on list (no hover). Each world is a tappable row
+// with a thumbnail, name and description.
+function HubMobileList() {
+  return (
+    <div style={{ position: "relative", zIndex: 18, flex: 1, padding: "28px clamp(18px,6vw,28px) 8px" }}>
+      <div style={{ font: `800 14px/1 ${sans}`, letterSpacing: ".02em", color: INK, marginBottom: 22, textTransform: "uppercase", opacity: 0.7 }}>My worlds</div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {WORLDS.map((it) => {
+          const enabled = it.href != null;
+          const rowStyle: React.CSSProperties = {
+            display: "flex", alignItems: "center", gap: 14, padding: "14px 0", color: INK,
+            textDecoration: "none", borderTop: `1px solid ${INK}22`,
+            opacity: enabled ? 1 : 0.6, cursor: enabled ? "pointer" : "default",
+          };
+          const inner = (
+            <>
+              <img src={it.img} alt="" style={{ width: 64, height: 48, flex: "none", objectFit: "cover", display: "block", border: `1px solid ${INK}`, borderLeft: `4px solid ${it.accent}` }} />
+              <div style={{ minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ font: `700 21px/1.05 ${sans}`, letterSpacing: "-.01em" }}>{it.name}</span>
+                  {it.restricted && RESTRICTED_BADGE}
+                </div>
+                <div style={{ font: `400 12px/1.4 ${mono}`, color: INK, opacity: 0.7, marginTop: 4 }}>{it.desc}</div>
+              </div>
+            </>
+          );
+          return enabled ? (
+            <a key={it.slug} href={it.href as string} style={rowStyle}>{inner}</a>
+          ) : (
+            <div key={it.slug} aria-disabled="true" style={rowStyle}>{inner}</div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+interface HubDesktopListProps {
+  active: number | null;
+  setActive: (i: number | null) => void;
+  cur: World | null;
+  rowCenter: number;
+  contentRef: React.RefObject<HTMLDivElement>;
+  itemRefs: React.MutableRefObject<(HTMLElement | null)[]>;
+}
+
+// Desktop: the decentred list with the floating preview and the giant bleeding
+// name that both track the hovered row (positioned by the parent's layout effect).
+function HubDesktopList({ active, setActive, cur, rowCenter, contentRef, itemRefs }: HubDesktopListProps) {
+  const giantTone = cur ? cur.accent : INK;
+  return (
+    <div ref={contentRef} style={{ position: "relative", flex: "1 0 auto", minHeight: "58vh", margin: "38px clamp(28px,5vw,64px) 0" }}>
+      {/* preview: image + description, tracks the active row */}
+      <div
+        style={{
+          position: "absolute", left: 0, width: 300, zIndex: 16,
+          top: rowCenter, transform: "translateY(-50%)",
+          opacity: cur ? 1 : 0, pointerEvents: "none",
+          display: "flex", gap: 18, alignItems: "flex-start",
+        }}
+      >
+        {cur && (
+          <>
+            <img src={cur.img} alt="" style={{ width: 150, height: 112, flex: "none", objectFit: "cover", display: "block", border: `1px solid ${INK}` }} />
+            <div style={{ font: `400 14px/1.45 ${mono}`, color: INK, maxWidth: 140 }}>
+              {cur.desc}
+              {cur.restricted && <span style={{ opacity: 0.55 }}> — restricted area.</span>}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* giant bleeding name behind the list, tracks the active row */}
+      <div
+        style={{
+          position: "absolute", left: "calc(54% + 120px)", font: `800 clamp(52px,8vw,132px)/.84 ${sans}`,
+          letterSpacing: "-.035em", whiteSpace: "nowrap", color: giantTone, zIndex: 4, pointerEvents: "none",
+          top: rowCenter, transform: "translateY(-50%)", opacity: cur ? 0.42 : 0,
+        }}
+      >
+        {cur ? cur.name : ""}
+      </div>
+
+      {/* decentered list — kept in normal flow so it drives the content
+          height; when the viewport is short/zoomed the page scrolls
+          instead of the list being clipped under the footer. */}
+      <div style={{ position: "relative", marginLeft: "54%", paddingTop: 6, width: "min(330px, 42vw)", zIndex: 18 }}>
+        <div style={{ font: `800 16px/1 ${sans}`, letterSpacing: "-.005em", color: INK, marginBottom: 40 }}>My worlds</div>
+
+        {WORLDS.map((it, i) => {
+          const on = active === i;
+          const enabled = it.href != null;
+          const sharedStyle: React.CSSProperties = {
+            display: "flex", alignItems: "center", gap: 12, padding: "15px 0", color: INK,
+            cursor: enabled ? "pointer" : "default", textDecoration: "none",
+            transform: on ? "translateX(16px)" : "translateX(0)",
+            transition: "transform .18s ease",
+            opacity: enabled ? 1 : 0.62,
+          };
+          const inner = (
+            <>
+              <span style={{ opacity: on ? 1 : 0, font: `400 20px/1 ${sans}`, marginLeft: -26, width: 14 }}>•</span>
+              <span style={{ font: `${on ? 800 : 500} clamp(24px,2.4vw,31px)/1 ${sans}`, letterSpacing: "-.01em" }}>{it.name}</span>
+              {it.restricted && RESTRICTED_BADGE}
+            </>
+          );
+          const setRef = (el: HTMLElement | null) => {
+            itemRefs.current[i] = el;
+          };
+          return enabled ? (
+            <a
+              key={it.slug}
+              href={it.href as string}
+              ref={setRef}
+              onMouseEnter={() => setActive(i)}
+              style={sharedStyle}
+            >
+              {inner}
+            </a>
+          ) : (
+            <div
+              key={it.slug}
+              ref={setRef}
+              onMouseEnter={() => setActive(i)}
+              aria-disabled="true"
+              style={sharedStyle}
+            >
+              {inner}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Hub() {
   const isMobile = useIsMobile();
   const [active, setActive] = useState<number | null>(null);
@@ -87,7 +223,6 @@ function Hub() {
   }, [active, isMobile]);
 
   const cur = active != null ? WORLDS[active] : null;
-  const giantTone = cur ? cur.accent : INK;
 
   return (
     <div style={{ position: "relative", width: "100%", background: BG, padding: isMobile ? 8 : 14, minHeight: "100vh", boxSizing: "border-box", fontFamily: sans }}>
@@ -113,121 +248,16 @@ function Hub() {
         </header>
 
         {isMobile ? (
-          /* ---------- mobile: stacked, always-on list ---------- */
-          <div style={{ position: "relative", zIndex: 18, flex: 1, padding: "28px clamp(18px,6vw,28px) 8px" }}>
-            <div style={{ font: `800 14px/1 ${sans}`, letterSpacing: ".02em", color: INK, marginBottom: 22, textTransform: "uppercase", opacity: 0.7 }}>My worlds</div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {WORLDS.map((it) => {
-                const enabled = it.href != null;
-                const rowStyle: React.CSSProperties = {
-                  display: "flex", alignItems: "center", gap: 14, padding: "14px 0", color: INK,
-                  textDecoration: "none", borderTop: `1px solid ${INK}22`,
-                  opacity: enabled ? 1 : 0.6, cursor: enabled ? "pointer" : "default",
-                };
-                const inner = (
-                  <>
-                    <img src={it.img} alt="" style={{ width: 64, height: 48, flex: "none", objectFit: "cover", display: "block", border: `1px solid ${INK}`, borderLeft: `4px solid ${it.accent}` }} />
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                        <span style={{ font: `700 21px/1.05 ${sans}`, letterSpacing: "-.01em" }}>{it.name}</span>
-                        {it.restricted && RESTRICTED_BADGE}
-                      </div>
-                      <div style={{ font: `400 12px/1.4 ${mono}`, color: INK, opacity: 0.7, marginTop: 4 }}>{it.desc}</div>
-                    </div>
-                  </>
-                );
-                return enabled ? (
-                  <a key={it.slug} href={it.href as string} style={rowStyle}>{inner}</a>
-                ) : (
-                  <div key={it.slug} aria-disabled="true" style={rowStyle}>{inner}</div>
-                );
-              })}
-            </div>
-          </div>
+          <HubMobileList />
         ) : (
-          /* ---------- desktop: decentred list + hover preview ---------- */
-          <div ref={contentRef} style={{ position: "relative", flex: "1 0 auto", minHeight: "58vh", margin: "38px clamp(28px,5vw,64px) 0" }}>
-            {/* preview: image + description, tracks the active row */}
-            <div
-              style={{
-                position: "absolute", left: 0, width: 300, zIndex: 16,
-                top: rowCenter, transform: "translateY(-50%)",
-                opacity: cur ? 1 : 0, pointerEvents: "none",
-                display: "flex", gap: 18, alignItems: "flex-start",
-              }}
-            >
-              {cur && (
-                <>
-                  <img src={cur.img} alt="" style={{ width: 150, height: 112, flex: "none", objectFit: "cover", display: "block", border: `1px solid ${INK}` }} />
-                  <div style={{ font: `400 14px/1.45 ${mono}`, color: INK, maxWidth: 140 }}>
-                    {cur.desc}
-                    {cur.restricted && <span style={{ opacity: 0.55 }}> — restricted area.</span>}
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* giant bleeding name behind the list, tracks the active row */}
-            <div
-              style={{
-                position: "absolute", left: "calc(54% + 120px)", font: `800 clamp(52px,8vw,132px)/.84 ${sans}`,
-                letterSpacing: "-.035em", whiteSpace: "nowrap", color: giantTone, zIndex: 4, pointerEvents: "none",
-                top: rowCenter, transform: "translateY(-50%)", opacity: cur ? 0.42 : 0,
-              }}
-            >
-              {cur ? cur.name : ""}
-            </div>
-
-            {/* decentered list — kept in normal flow so it drives the content
-                height; when the viewport is short/zoomed the page scrolls
-                instead of the list being clipped under the footer. */}
-            <div style={{ position: "relative", marginLeft: "54%", paddingTop: 6, width: "min(330px, 42vw)", zIndex: 18 }}>
-              <div style={{ font: `800 16px/1 ${sans}`, letterSpacing: "-.005em", color: INK, marginBottom: 40 }}>My worlds</div>
-
-              {WORLDS.map((it, i) => {
-                const on = active === i;
-                const enabled = it.href != null;
-                const sharedStyle: React.CSSProperties = {
-                  display: "flex", alignItems: "center", gap: 12, padding: "15px 0", color: INK,
-                  cursor: enabled ? "pointer" : "default", textDecoration: "none",
-                  transform: on ? "translateX(16px)" : "translateX(0)",
-                  transition: "transform .18s ease",
-                  opacity: enabled ? 1 : 0.62,
-                };
-                const inner = (
-                  <>
-                    <span style={{ opacity: on ? 1 : 0, font: `400 20px/1 ${sans}`, marginLeft: -26, width: 14 }}>•</span>
-                    <span style={{ font: `${on ? 800 : 500} clamp(24px,2.4vw,31px)/1 ${sans}`, letterSpacing: "-.01em" }}>{it.name}</span>
-                    {it.restricted && RESTRICTED_BADGE}
-                  </>
-                );
-                const setRef = (el: HTMLElement | null) => {
-                  itemRefs.current[i] = el;
-                };
-                return enabled ? (
-                  <a
-                    key={it.slug}
-                    href={it.href as string}
-                    ref={setRef}
-                    onMouseEnter={() => setActive(i)}
-                    style={sharedStyle}
-                  >
-                    {inner}
-                  </a>
-                ) : (
-                  <div
-                    key={it.slug}
-                    ref={setRef}
-                    onMouseEnter={() => setActive(i)}
-                    aria-disabled="true"
-                    style={sharedStyle}
-                  >
-                    {inner}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <HubDesktopList
+            active={active}
+            setActive={setActive}
+            cur={cur}
+            rowCenter={rowCenter}
+            contentRef={contentRef}
+            itemRefs={itemRefs}
+          />
         )}
 
         {/* footer */}
