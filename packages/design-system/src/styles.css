@@ -202,8 +202,6 @@
 }
 .g-header__cell:hover {
   background: var(--g-accent);
-}
-.g-header__cell:hover .g-header__link {
   color: #0e1410;
 }
 .g-header__link {

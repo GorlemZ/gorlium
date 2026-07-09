@@ -4,11 +4,7 @@ import terrario2 from "../assets/Terrario1.png";
 import fila1 from "../assets/Fila1cropped.png";
 import patrick from "../assets/Patrizio.png";
 import { useTranslation } from "react-i18next";
-
-function preloadImage(url: string) {
-  const img = new Image();
-  img.src = url;
-}
+import { preloadImage } from "../lib/preloadImage";
 
 function Terrariums() {
   const { t } = useTranslation();
