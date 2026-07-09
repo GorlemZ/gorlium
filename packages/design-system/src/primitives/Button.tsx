@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { IconProps } from "../types";
+import type { ReactNode } from "react";
+import type { IconProps } from "../types";
 
 export interface ButtonProps {
   label: ReactNode;

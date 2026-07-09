@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  IconProps,
   Inline,
   PostSection,
   Stack,
+  type IconProps,
 } from "@gorlium/design-system";
 import githublogo from "../assets/github-mark-white.png";
 import { useTranslation } from "react-i18next";

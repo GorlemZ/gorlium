@@ -23,6 +23,9 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      // Enforce `import type` so transpile-per-file tools (Vite/esbuild) and
+      // verbatimModuleSyntax agree on what gets elided.
+      "@typescript-eslint/consistent-type-imports": "error",
     },
   }
 );
