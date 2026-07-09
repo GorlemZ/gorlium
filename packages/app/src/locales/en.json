@@ -4,7 +4,6 @@
       "home": "HOME",
       "terrariums": "TERRARIUMS",
       "dev": "GitHub",
-      "blog": "BLOG",
       "contacts": "CONTACTS",
       "instructions": "HOW-TO"
     },
@@ -21,35 +20,6 @@
       "sendButton": "SEND"
     },
     "bannerWelcome": "| WELCOME TO THE GORLIUM |",
-    "lore": {
-      "lore1": {
-        "title": "20 Jan 2025 - NOT YET STARTED, ALREADY CHANGED. ",
-        "content": [
-          "SO. Here I am, trying my best to develop this website. What started as a simple frontend exercise has somehow morphed into the hub for all my hobbies. 🤷",
-          "Like all my projects, I've gone big right out of the gate—and yes, I'm already stressed. Not sure if that's a good thing or not. But hey, I'm having fun, so maybe it's okay. Hopefully, this will turn into something therapeutic—a little diary for all the things I love doing.",
-          "- Before the first deploy, the website changed a couple of times already lol",
-          "- I do have old pictures of my terrariums, could be nice to add updates on them and how I eventually fixe them.",
-          "- Should I add a section for my knitting projects? Not sure. Maye is they're plants hangers or something related to plants."
-        ]
-      },
-      "lore2": {
-        "title": "22 Jan 2025 - DEPLOYIN",
-        "content": [
-          "I'm going to deploy the thing, just few retouches left. Should I leave a form to contact me?",
-          "Copilot suggested me the following adding:",
-          "--- I'm not sure if I want to be contacted. I'm not sure if I want to be found. I'm not sure if I want to be seen. I'm not sure if I want to be heard. I'm not sure if I want to be known. I'm not sure if I want to be loved. I'm not sure if I want to be alive. I'm not sure if I want to be. ---",
-          "CALM THE FUCK DOWN COPILOT"
-        ]
-      },
-      "lore3": {
-        "title": "25 Jan 2025 - THAT WAS A LIE",
-        "content": [
-          "At the end I didn't deploy BUT I'm gonna do it soon ⚡",
-          "I've added a contact me section that forward messages on telegram <3",
-          "Today, I came up with an idea for a new project: a microprocessor-camera system to monitor birds in a small feeding house, equipped with a motion sensor. Ugh, why do I keep piling up projects instead of focusing on mastering just one?"
-        ]
-      }
-    },
     "terrariums": {
       "terrarium1": {
         "title": "The right mixture",
