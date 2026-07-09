@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "turbo run start",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck"
   },
   "keywords": [],
   "author": "",
   "packageManager": "pnpm@8.15.4",
   "license": "ISC",
   "devDependencies": {
+    "@typescript/native-preview": "7.0.0-dev.20260707.2",
     "turbo": "^2.3.3"
   },
   "dependencies": {

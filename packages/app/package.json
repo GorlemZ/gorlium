@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc -b && vite build",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsgo -b && vite build",
+    "typecheck": "tsgo -b",
     "lint": "eslint .",
     "start": "vite"
   },
