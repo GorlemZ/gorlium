@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from "react";
-import { alignItemsMap, pickResponsive, Responsive, spacePx } from "../lib/layout";
+import type { CSSProperties, ReactNode } from "react";
+import { alignItemsMap, pickResponsive, type Responsive, spacePx } from "../lib/layout";
 
 export interface StackProps {
   children?: ReactNode;

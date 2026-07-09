@@ -1,6 +1,6 @@
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 import { Body, Title } from "../primitives/Text";
-import { Box, BoxWidth } from "../primitives/Box";
+import { Box, type BoxWidth } from "../primitives/Box";
 import { Inline } from "../primitives/Inline";
 import GorliumImage from "./GorliumImage";
 
