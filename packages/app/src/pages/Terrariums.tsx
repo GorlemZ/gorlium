@@ -27,21 +27,21 @@ function Terrariums() {
             imgPath={terrario2}
             imgSize={"1/2"}
             title={t("terrariums.terrarium1.title")}
-            text={t("terrariums.terrarium1.content")}
+            text={t("terrariums.terrarium1.content", { returnObjects: true })}
           ></PostSection>
           <PostSection
             imgAlignRight={true}
             imgPath={fila1}
             imgSize={"1/2"}
             title={t("terrariums.terrarium2.title")}
-            text={t("terrariums.terrarium2.content")}
+            text={t("terrariums.terrarium2.content", { returnObjects: true })}
           ></PostSection>
           <PostSection
             imgAlignRight={false}
             imgPath={patrick}
             imgSize={"1/2"}
             title={t("terrariums.terrarium3.title")}
-            text={t("terrariums.terrarium3.content")}
+            text={t("terrariums.terrarium3.content", { returnObjects: true })}
           ></PostSection>
         </Stack>
       </Box>

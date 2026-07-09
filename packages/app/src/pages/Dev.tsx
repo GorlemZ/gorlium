@@ -19,7 +19,10 @@ function Dev() {
       <Box width={40}></Box>
       <Box width="fill">
         <Stack space={24} dividers={true}>
-          <PostSection title={t("dev.dev1.title")} text={t("dev.dev1.content")}>
+          <PostSection
+            title={t("dev.dev1.title")}
+            text={t("dev.dev1.content", { returnObjects: true })}
+          >
             <Inline space={8} alignY={"center"}>
               👉
               <Button

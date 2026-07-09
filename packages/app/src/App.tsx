@@ -5,20 +5,13 @@ import Homepage from "./pages/Homepage";
 import Terrariums from "./pages/Terrariums";
 import Dev from "./pages/Dev";
 import Contacts from "./pages/Contacts";
-import i18n from "../i18n";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 import { Instructions } from "./pages/Instructions";
 
 // The terrarium area keeps the original digital-brutalism chrome (Header +
 // Banner). Other hub worlds will get their own layouts as they're built.
 function TerrariumLayout() {
   const { t } = useTranslation();
-
-  const handleLanguageChange = () => {
-    // Temporarily disable language switching
-    console.log("Language switching is disabled.");
-  };
 
   return (
     <div style={{ maxWidth: "1400px", margin: "0 auto", overflow: "hidden" }}>
@@ -46,8 +39,6 @@ function TerrariumLayout() {
           ← GORLIUM HUB
         </Link>
         <Header
-          onToggleLanguage={handleLanguageChange}
-          initialLanguage={"it"}
           list={[
             [t("header.home"), "/terrariums"],
             [t("header.terrariums"), "/terrariums/gallery"],
@@ -73,13 +64,6 @@ function TerrariumLayout() {
 }
 
 function App() {
-  useEffect(() => {
-    const savedLang = localStorage.getItem("language");
-    if (savedLang) {
-      i18n.changeLanguage(savedLang);
-    }
-  }, []);
-
   return (
     <BrowserRouter>
       <Routes>
