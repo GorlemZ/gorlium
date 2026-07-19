@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useBaltici } from "../../baltici/store";
-import { SectionTitle } from "../../baltici/components/atoms";
+import { SectionTitle, PAPER, INK } from "../../baltici/components/atoms";
 import {
   Label,
   TextInput,
@@ -227,7 +227,7 @@ function BalticiAddExpense() {
           <button
             type="button"
             onClick={save}
-            style={{ font: `700 13px/1 ${mono}`, border: "1.5px solid currentColor", background: "currentColor", color: "#ece7dd", padding: "12px 18px", cursor: "pointer" }}
+            style={{ font: `700 13px/1 ${mono}`, border: `1.5px solid ${PAPER}`, background: PAPER, color: INK, padding: "12px 18px", cursor: "pointer" }}
           >
             {t("baltici.expense.save")}
           </button>
