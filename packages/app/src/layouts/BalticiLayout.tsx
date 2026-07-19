@@ -37,7 +37,7 @@ function BalticiLayout() {
         />
         <div style={{ width: "100%", padding: "0 12px 40px", boxSizing: "border-box" }}>
           {isConfigured ? (
-            <ErrorBoundary fallback={<NotConfigured />}>
+            <ErrorBoundary fallback={<GenericError />}>
               <Outlet />
             </ErrorBoundary>
           ) : (
@@ -67,6 +67,25 @@ function NotConfigured() {
       <code style={{ display: "block", marginTop: 12, opacity: 0.8 }}>
         VITE_INSTANT_APP_ID
       </code>
+    </div>
+  );
+}
+
+function GenericError() {
+  const { t } = useTranslation();
+  return (
+    <div
+      style={{
+        border: "1.5px solid currentColor",
+        padding: "24px",
+        margin: "24px 0",
+        font: "400 14px/1.6 'Space Mono', monospace",
+      }}
+    >
+      <strong style={{ display: "block", marginBottom: 8 }}>
+        {t("baltici.error.title")}
+      </strong>
+      {t("baltici.error.body")}
     </div>
   );
 }

@@ -24,10 +24,12 @@ export function Label({ text }: { text: string }) {
 export function TextInput({
   value,
   onChange,
+  onBlur,
   placeholder,
 }: {
   value: string;
   onChange: (v: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
 }) {
   return (
@@ -36,6 +38,7 @@ export function TextInput({
       value={value}
       placeholder={placeholder}
       onChange={(e) => onChange(e.target.value)}
+      onBlur={onBlur}
     />
   );
 }

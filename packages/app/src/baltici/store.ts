@@ -24,6 +24,11 @@ interface RawRow {
   [key: string]: unknown;
 }
 
+// The group is a singleton (D2: one group), so its `meta` row uses a FIXED id.
+// Every setGroupName upserts that same row — otherwise, while the reactive query
+// lags behind the first write, `?? id()` would mint a new row per keystroke.
+const META_ID = "ba17c100-0000-4000-8000-000000000001";
+
 function num(v: unknown, fallback = 0): number {
   return typeof v === "number" && Number.isFinite(v) ? v : fallback;
 }
@@ -81,7 +86,11 @@ export function toGroupState(data: {
     .filter((e): e is Expense => e !== null)
     .sort((a, b) => b.createdAt - a.createdAt); // newest first (list view)
 
-  const name = str((data.meta ?? [])[0]?.groupName);
+  // Singleton group row lives at META_ID; fall back to the first row for any
+  // legacy/leftover meta row so the name is read deterministically.
+  const metaRows = data.meta ?? [];
+  const metaRow = metaRows.find((r) => r.id === META_ID) ?? metaRows[0];
+  const name = str(metaRow?.groupName);
   return { name, people, expenses };
 }
 
@@ -120,6 +129,10 @@ export function useBaltici(): UseBalticiResult {
     meta: {},
   });
 
+  // A query error (e.g. denied read permissions) is a real failure — surface it
+  // via the layout's ErrorBoundary instead of rendering a misleading empty group.
+  if (error) throw new Error(error.message ?? "InstantDB query failed");
+
   const state = useMemo(
     () => toGroupState((data ?? {}) as Parameters<typeof toGroupState>[0]),
     [data]
@@ -129,12 +142,6 @@ export function useBaltici(): UseBalticiResult {
     const net = balances(state);
     return { net, totals: totals(state), settlements: simplifyDebts(net) };
   }, [state]);
-
-  const metaId = useMemo(() => {
-    const rows = ((data ?? {}) as { meta?: RawRow[] }).meta ?? [];
-    const first = rows[0]?.id;
-    return typeof first === "string" ? first : null;
-  }, [data]);
 
   const actions = useMemo<BalticiActions>(() => {
     const peopleIds = () => new Set(state.people.map((p) => p.id));
@@ -171,7 +178,9 @@ export function useBaltici(): UseBalticiResult {
 
     return {
       setGroupName(name) {
-        database.transact(database.tx.meta[metaId ?? id()].update({ groupName: name }));
+        database.transact(
+          database.tx.meta[META_ID].update({ groupName: name })
+        );
       },
       addPerson(name) {
         const trimmed = name.trim();
@@ -219,11 +228,11 @@ export function useBaltici(): UseBalticiResult {
         );
       },
     };
-  }, [state, metaId, database]);
+  }, [state, database]);
 
   return {
     isLoading,
-    error: error ? String(error.message ?? error) : null,
+    error: null, // query errors are thrown above and caught by the ErrorBoundary
     state,
     balances: derived.net,
     totals: derived.totals,

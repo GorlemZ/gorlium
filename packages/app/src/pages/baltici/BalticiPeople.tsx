@@ -28,9 +28,11 @@ function BalticiPeople() {
       <div style={{ display: "flex", gap: 8 }}>
         <TextInput
           value={nameValue}
-          onChange={(v) => {
-            setGroupName(v);
-            actions.setGroupName(v);
+          onChange={setGroupName}
+          onBlur={() => {
+            if (groupName !== null && groupName !== state.name) {
+              actions.setGroupName(groupName.trim());
+            }
           }}
           placeholder={t("baltici.people.groupNamePlaceholder")}
         />
@@ -45,7 +47,13 @@ function BalticiPeople() {
             <PersonAvatar person={p} />
             <input
               defaultValue={p.name}
-              onBlur={(e) => actions.renamePerson(p.id, e.target.value)}
+              onBlur={(e) => {
+                if (e.target.value.trim() === "") {
+                  e.target.value = p.name; // don't allow clearing to empty
+                  return;
+                }
+                actions.renamePerson(p.id, e.target.value);
+              }}
               style={{ flex: 1, font: `400 14px/1 ${mono}`, border: "none", borderBottom: "1px solid transparent", background: "transparent", color: "inherit", padding: "4px 0" }}
             />
             <button

@@ -20,7 +20,10 @@ import type { PersonId } from "../../baltici/model";
 const mono = "'Space Mono', monospace";
 
 function today(): string {
-  return new Date().toISOString().slice(0, 10);
+  // Local date (not UTC) so the default doesn't slip a day near midnight.
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
 // Empty → 0 cents; invalid → null.

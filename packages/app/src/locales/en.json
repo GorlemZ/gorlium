@@ -97,6 +97,10 @@
         "title": "Baltici is not configured yet.",
         "body": "Shared data needs an InstantDB app. Create one, then set this build-time env var on Netlify and in your local .env:"
       },
+      "error": {
+        "title": "Something went wrong.",
+        "body": "Couldn't load the shared data. Check your connection and reload the page."
+      },
       "home": {
         "untitled": "Trip",
         "noPeople": "No people yet. Start by adding the group in",
