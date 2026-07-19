@@ -25,7 +25,7 @@ function App() {
           <Route path="contacts" element={<Contacts />} />
           <Route path="dev" element={<Dev />} />
         </Route>
-        <Route path="/baltici" element={<BalticiLayout />}>
+        <Route path="/secret-baltici" element={<BalticiLayout />}>
           <Route index element={<BalticiHome />} />
           <Route path="expenses" element={<BalticiExpenses />} />
           <Route path="expenses/new" element={<BalticiAddExpense />} />

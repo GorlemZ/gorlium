@@ -20,7 +20,7 @@ function BalticiHome() {
         <SectionTitle>{title}</SectionTitle>
         <EmptyState>
           {t("baltici.home.noPeople")}{" "}
-          <Link to="/baltici/people" style={{ color: "inherit" }}>
+          <Link to="/secret-baltici/people" style={{ color: "inherit" }}>
             {t("baltici.tabs.people")}
           </Link>
         </EmptyState>
@@ -48,7 +48,7 @@ function BalticiHome() {
 
       <p style={{ font: `400 12px/1.5 ${mono}`, opacity: 0.65, marginTop: 16 }}>
         {t("baltici.home.hint")}{" "}
-        <Link to="/baltici/who-owes" style={{ color: "inherit" }}>
+        <Link to="/secret-baltici/who-owes" style={{ color: "inherit" }}>
           {t("baltici.tabs.whoOwes")}
         </Link>
       </p>

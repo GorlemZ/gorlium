@@ -26,7 +26,7 @@ function BalticiExpenses() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <SectionTitle>{t("baltici.expenses.title")}</SectionTitle>
         <Link
-          to="/baltici/expenses/new"
+          to="/secret-baltici/expenses/new"
           style={{ font: `700 12px/1 ${mono}`, border: "1.5px solid currentColor", padding: "9px 12px", textDecoration: "none", color: "inherit" }}
         >
           {t("baltici.expenses.add")}
@@ -48,7 +48,7 @@ function BalticiExpenses() {
           <div style={{ display: "flex", gap: 6 }}>
             <button
               type="button"
-              onClick={() => navigate(`/baltici/expenses/${e.id}/edit`)}
+              onClick={() => navigate(`/secret-baltici/expenses/${e.id}/edit`)}
               style={btnStyle}
               aria-label={t("baltici.expenses.edit")}
             >
