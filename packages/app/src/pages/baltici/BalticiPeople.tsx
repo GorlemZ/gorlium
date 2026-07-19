@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useBaltici } from "../../baltici/store";
-import { PersonAvatar, Row, SectionTitle, EmptyState } from "../../baltici/components/atoms";
+import { PersonAvatar, Row, SectionTitle, EmptyState, PAPER, INK } from "../../baltici/components/atoms";
 import { Label, TextInput } from "../../baltici/components/formControls";
 
 const mono = "'Space Mono', monospace";
@@ -98,7 +98,7 @@ function BalticiPeople() {
         <button
           type="button"
           onClick={add}
-          style={{ font: `700 12px/1 ${mono}`, border: "1.5px solid currentColor", background: "currentColor", color: "#ece7dd", padding: "10px 14px", cursor: "pointer" }}
+          style={{ font: `700 12px/1 ${mono}`, border: `1.5px solid ${PAPER}`, background: PAPER, color: INK, padding: "10px 14px", cursor: "pointer" }}
         >
           {t("baltici.people.addButton")}
         </button>

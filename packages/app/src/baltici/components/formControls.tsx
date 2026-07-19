@@ -1,5 +1,6 @@
 import type { Person, PersonId } from "../model";
 import { formatEuro } from "../money";
+import { PAPER, INK } from "./atoms";
 
 const mono = "'Space Mono', monospace";
 
@@ -133,8 +134,8 @@ export function SplitModeTabs({
               font: `${on ? 700 : 400} 12px/1 ${mono}`,
               padding: "8px 4px",
               border: "1.5px solid currentColor",
-              background: on ? "currentColor" : "transparent",
-              color: on ? "#ece7dd" : "inherit",
+              background: on ? PAPER : "transparent",
+              color: on ? INK : "inherit",
               cursor: "pointer",
             }}
           >
@@ -172,8 +173,8 @@ export function ParticipantsToggle({
               font: `${on ? 700 : 400} 13px/1 ${mono}`,
               padding: "8px 10px",
               border: "1.5px solid currentColor",
-              background: on ? "currentColor" : "transparent",
-              color: on ? "#ece7dd" : "inherit",
+              background: on ? PAPER : "transparent",
+              color: on ? INK : "inherit",
               opacity: on ? 1 : 0.6,
               cursor: "pointer",
             }}

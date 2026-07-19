@@ -4,6 +4,12 @@ import { formatEuro } from "../money";
 
 const mono = "'Space Mono', monospace";
 
+// The Baltici area renders light text on a dark background, so a "filled"
+// (active/primary) control must be light-bg + dark-text — using currentColor for
+// both would be light-on-light and invisible.
+export const PAPER = "#ece7dd";
+export const INK = "#15140f";
+
 export function PersonAvatar({ person, size = 30 }: { person: Person; size?: number }) {
   const initial = person.name.trim().charAt(0).toUpperCase() || "?";
   return (
