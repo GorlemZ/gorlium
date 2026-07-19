@@ -29,10 +29,10 @@ function BalticiLayout() {
         </Link>
         <Header
           list={[
-            [t("baltici.tabs.home"), "/baltici"],
-            [t("baltici.tabs.expenses"), "/baltici/expenses"],
-            [t("baltici.tabs.whoOwes"), "/baltici/who-owes"],
-            [t("baltici.tabs.people"), "/baltici/people"],
+            [t("baltici.tabs.home"), "/secret-baltici"],
+            [t("baltici.tabs.expenses"), "/secret-baltici/expenses"],
+            [t("baltici.tabs.whoOwes"), "/secret-baltici/who-owes"],
+            [t("baltici.tabs.people"), "/secret-baltici/people"],
           ]}
         />
         <div style={{ width: "100%", padding: "0 12px 40px", boxSizing: "border-box" }}>

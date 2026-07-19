@@ -127,7 +127,7 @@ function BalticiAddExpense() {
       setError(t("baltici.expense.errGeneric"));
       return;
     }
-    navigate("/baltici/expenses");
+    navigate("/secret-baltici/expenses");
   };
 
   if (state.people.length === 0) {
@@ -233,7 +233,7 @@ function BalticiAddExpense() {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/baltici/expenses")}
+            onClick={() => navigate("/secret-baltici/expenses")}
             style={{ font: `400 13px/1 ${mono}`, border: "1.5px solid currentColor", background: "transparent", color: "inherit", padding: "12px 18px", cursor: "pointer" }}
           >
             {t("baltici.expense.cancel")}

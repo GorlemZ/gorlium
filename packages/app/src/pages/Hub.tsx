@@ -37,7 +37,7 @@ const WORLDS: World[] = [
   { slug: "terrari", name: "Terrariums", accent: "#8faa57", desc: "Tiny worlds, sealed under glass.", img: "/gorlium/terrari.svg", href: "/terrariums", restricted: false },
   { slug: "sartoria", name: "Tailoring", accent: "#8aa0c8", desc: "Made-to-measure, from the pattern.", img: "/gorlium/sartoria.svg", href: null, restricted: false },
   { slug: "gioielleria", name: "Jewelry", accent: "#cda64e", desc: "Metal and stone, in the detail.", img: "/gorlium/gioielleria.svg", href: null, restricted: false },
-  { slug: "baltici", name: "Baltici", accent: "#cc7a4f", desc: "Trip expenses, split fair.", img: "/gorlium/maglia.svg", href: "/baltici", restricted: false },
+  { slug: "maglia", name: "Knitting & Crochet", accent: "#cc7a4f", desc: "Handmade, warm and slow.", img: "/gorlium/maglia.svg", href: null, restricted: false },
   { slug: "software", name: "Software & Development", accent: "#5fb3c6", desc: "Code, systems and experiments.", img: "/gorlium/software.svg", href: null, restricted: false },
   { slug: "mente", name: "Mental Health", accent: "#9b8cc4", desc: "A space to slow down.", img: "/gorlium/mente.svg", href: null, restricted: true },
 ];
