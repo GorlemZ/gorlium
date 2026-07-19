@@ -85,6 +85,77 @@
           "Put your terrarium in a bright spot, but avoid direct sunlight. Sun rays can overheat the glass and damage the plants. Indirect, diffused light is best."
         ]
       }
+    },
+    "baltici": {
+      "tabs": {
+        "home": "SUMMARY",
+        "expenses": "EXPENSES",
+        "whoOwes": "WHO OWES",
+        "people": "PEOPLE"
+      },
+      "notConfigured": {
+        "title": "Baltici is not configured yet.",
+        "body": "Shared data needs an InstantDB app. Create one, then set this build-time env var on Netlify and in your local .env:"
+      },
+      "home": {
+        "untitled": "Trip",
+        "noPeople": "No people yet. Start by adding the group in",
+        "grandTotal": "Trip total",
+        "expenses": "Expenses",
+        "balances": "Balances",
+        "hint": "See the payments to make in"
+      },
+      "people": {
+        "groupName": "Group name",
+        "groupNamePlaceholder": "e.g. Baltic trip 2026",
+        "title": "People",
+        "empty": "No one here yet. Add the people below.",
+        "add": "Add a person",
+        "name": "Name",
+        "namePlaceholder": "e.g. Marco",
+        "addButton": "ADD",
+        "remove": "REMOVE",
+        "removeBlocked": "This person has expenses linked. Remove or edit those first."
+      },
+      "expenses": {
+        "title": "Expenses",
+        "add": "+ ADD EXPENSE",
+        "empty": "No expenses yet. Add the first one.",
+        "paidBy": "paid by {{name}}",
+        "all": "everyone",
+        "edit": "EDIT",
+        "remove": "REMOVE"
+      },
+      "expense": {
+        "newTitle": "New expense",
+        "editTitle": "Edit expense",
+        "description": "Description",
+        "descriptionPlaceholder": "e.g. Dinner",
+        "amount": "Amount",
+        "payer": "Paid by",
+        "date": "Date",
+        "split": "How to split",
+        "splitAll": "Everyone",
+        "splitSubset": "Subset",
+        "splitExact": "Exact",
+        "perHead": "Split among {{count}} · € {{amount}} each",
+        "save": "SAVE",
+        "cancel": "CANCEL",
+        "needPeople": "Add some people first.",
+        "errAmount": "Enter a valid amount greater than zero.",
+        "errPayer": "Choose who paid.",
+        "errDescription": "Enter a description.",
+        "errShares": "One of the shares is not a valid amount.",
+        "errRemainder": "The shares must add up to the total.",
+        "errParticipants": "Select at least one person.",
+        "errGeneric": "Something is off with this expense."
+      },
+      "whoOwes": {
+        "title": "Who owes whom",
+        "empty": "Add people and expenses to see the balances.",
+        "allEven": "All settled — nobody owes anything.",
+        "hint": "Fewest payments to settle everything. Actual transfers happen among you."
+      }
     }
   }
 }
