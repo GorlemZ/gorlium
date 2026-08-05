@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { shareOf, balances, totals, simplifyDebts } from "./calc";
 import type { EqualExpense, ExactExpense, GroupState, Payment, Person } from "./model";
 import { parseAmountToCents, formatCents } from "./money";
-import { validateExpense } from "./validation";
+import { validateExpense, validatePayment } from "./validation";
 
 function person(id: string, i: number): Person {
   return { id, name: id, color: "#000", createdAt: i };
@@ -269,5 +269,37 @@ describe("validateExpense", () => {
         ids
       )
     ).toBe("bad-payer");
+  });
+});
+
+describe("validatePayment", () => {
+  const ids = new Set(["a", "b", "c"]);
+  const draft = { fromId: "b", toId: "a", amountCents: 300, method: "cash" };
+
+  it("accepts a valid claim", () => {
+    expect(validatePayment(draft, ids, [])).toBeNull();
+  });
+
+  it("rejects unknown people and self-payments", () => {
+    expect(validatePayment({ ...draft, fromId: "z" }, ids, [])).toBe("bad-people");
+    expect(validatePayment({ ...draft, toId: "z" }, ids, [])).toBe("bad-people");
+    expect(validatePayment({ ...draft, toId: "b" }, ids, [])).toBe("bad-people");
+  });
+
+  it("rejects non-positive or fractional amounts", () => {
+    expect(validatePayment({ ...draft, amountCents: 0 }, ids, [])).toBe("bad-amount");
+    expect(validatePayment({ ...draft, amountCents: -5 }, ids, [])).toBe("bad-amount");
+    expect(validatePayment({ ...draft, amountCents: 10.5 }, ids, [])).toBe("bad-amount");
+  });
+
+  it("rejects an empty method", () => {
+    expect(validatePayment({ ...draft, method: "  " }, ids, [])).toBe("no-method");
+  });
+
+  it("rejects a second PENDING claim for the same pair, but allows one after a confirmed", () => {
+    expect(validatePayment(draft, ids, [payment("b", "a", 100, "pending")])).toBe("duplicate-pending");
+    expect(validatePayment(draft, ids, [payment("b", "a", 100, "confirmed")])).toBeNull();
+    // different pair is fine even with a pending one around
+    expect(validatePayment({ ...draft, fromId: "c" }, ids, [payment("b", "a", 100, "pending")])).toBeNull();
   });
 });

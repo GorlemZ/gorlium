@@ -84,7 +84,10 @@ export type PaymentValidationError =
   | "duplicate-pending";
 
 /** Returns null when valid, otherwise the first error found. `payments` are the
- *  live (non-deleted) ones — only one PENDING claim per from→to pair may exist. */
+ *  live (non-deleted) ones — only one PENDING claim per from→to pair may exist.
+ *  NOTE: the duplicate-pending guard is client-side (no server): two devices
+ *  claiming the same pair simultaneously can both pass. Realtime sync keeps the
+ *  window tiny, and the confirmer simply rejects the extra claim. */
 export function validatePayment(
   draft: PaymentDraft,
   peopleIds: ReadonlySet<PersonId>,
