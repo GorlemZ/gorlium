@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { shareOf, balances, totals, simplifyDebts } from "./calc";
-import type { EqualExpense, ExactExpense, GroupState, Person } from "./model";
+import type { EqualExpense, ExactExpense, GroupState, Payment, Person } from "./model";
 import { parseAmountToCents, formatCents } from "./money";
 import { validateExpense } from "./validation";
 
@@ -24,6 +24,15 @@ function equal(over: string[], amount: number, payer = "a"): EqualExpense {
     splitMode: "equal",
     participants: over,
   };
+}
+
+function payment(
+  from: string,
+  to: string,
+  amount: number,
+  status: Payment["status"]
+): Payment {
+  return { id: "p", fromId: from, toId: to, amountCents: amount, method: "cash", status, createdAt: 0 };
 }
 
 describe("shareOf — equal split", () => {
@@ -90,6 +99,7 @@ describe("balances", () => {
           participants: people.map((p) => p.id),
         },
       ],
+      payments: [],
     };
     const net = balances(state);
     expect(net["0"]).toBe(12000 - 1500);
@@ -113,9 +123,53 @@ describe("balances", () => {
         participants,
       };
     });
-    const net = balances({ name: "t", people, expenses });
+    const net = balances({ name: "t", people, expenses, payments: [] });
     const sum = Object.values(net).reduce((a, b) => a + b, 0);
     expect(sum).toBe(0);
+  });
+});
+
+describe("balances — payments (settle-up)", () => {
+  // a pays 900 split among a,b,c → a +600, b −300, c −300
+  const base: GroupState = {
+    name: "t",
+    people: PEOPLE,
+    expenses: [equal(["a", "b", "c"], 900, "a")],
+    payments: [],
+  };
+
+  it("a pending payment has no effect (debt stays counted)", () => {
+    const net = balances({ ...base, payments: [payment("b", "a", 300, "pending")] });
+    expect(net).toEqual({ a: 600, b: -300, c: -300 });
+  });
+
+  it("a confirmed payment offsets the debt as a transfer", () => {
+    const net = balances({ ...base, payments: [payment("b", "a", 300, "confirmed")] });
+    expect(net).toEqual({ a: 300, b: 0, c: -300 });
+  });
+
+  it("sum of balances stays 0 with confirmed payments", () => {
+    const net = balances({ ...base, payments: [payment("b", "a", 300, "confirmed"), payment("c", "a", 120, "confirmed")] });
+    expect(Object.values(net).reduce((x, y) => x + y, 0)).toBe(0);
+  });
+
+  it("confirming a frozen snapshot larger than the current debt pushes the debtor into credit", () => {
+    // b's debt shrank to 100 (b paid a 600 expense split over a,b,c after claiming),
+    // but the frozen 300 claim is confirmed: b really handed 300 over.
+    const state: GroupState = {
+      ...base,
+      expenses: [...base.expenses, equal(["a", "b", "c"], 600, "b")],
+      payments: [payment("b", "a", 300, "confirmed")],
+    };
+    const net = balances(state);
+    expect(net.b).toBe(-300 - 200 + 600 + 300); // shares −300−200, paid 600, transfer +300
+    expect(net.b).toBeGreaterThan(0);
+    expect(Object.values(net).reduce((x, y) => x + y, 0)).toBe(0);
+  });
+
+  it("totals (trip total) ignore payments — a settle-up is not an expense", () => {
+    const withPay = { ...base, payments: [payment("b", "a", 300, "confirmed")] };
+    expect(totals(withPay)).toEqual(totals(base));
   });
 });
 
@@ -125,6 +179,7 @@ describe("totals", () => {
       name: "t",
       people: PEOPLE,
       expenses: [equal(["a", "b", "c"], 900, "a"), equal(["a", "b"], 200, "b")],
+      payments: [],
     };
     const { perPerson, grand } = totals(state);
     expect(perPerson.a).toBe(900);

@@ -9,15 +9,20 @@ import { balances, simplifyDebts, totals, type Settlement } from "./calc";
 import {
   type Expense,
   type GroupState,
+  type Payment,
   type Person,
   type PersonId,
   personIdsInExpense,
+  personIdsInPayment,
 } from "./model";
 import { pickColor } from "./colors";
 import {
   validateExpense,
+  validatePayment,
   type ExpenseDraft,
   type ExpenseValidationError,
+  type PaymentDraft,
+  type PaymentValidationError,
 } from "./validation";
 
 interface RawRow {
@@ -63,11 +68,33 @@ function mapExpense(r: RawRow): Expense | null {
   return { ...base, splitMode: "equal", participants };
 }
 
+function mapPayment(r: RawRow): Payment | null {
+  const idv = r.id;
+  const fromId = r.fromId;
+  const toId = r.toId;
+  if (
+    typeof idv !== "string" ||
+    typeof fromId !== "string" ||
+    typeof toId !== "string"
+  )
+    return null;
+  return {
+    id: idv,
+    fromId,
+    toId,
+    amountCents: num(r.amountCents),
+    method: str(r.method),
+    status: r.status === "confirmed" ? "confirmed" : "pending",
+    createdAt: num(r.createdAt),
+  };
+}
+
 /** Pure mapper: InstantDB query result → GroupState. People ordered by
  *  createdAt (canonical), soft-deleted rows filtered out. */
 export function toGroupState(data: {
   people?: RawRow[];
   expenses?: RawRow[];
+  payments?: RawRow[];
   meta?: RawRow[];
 }): GroupState {
   const people: Person[] = (data.people ?? [])
@@ -86,19 +113,26 @@ export function toGroupState(data: {
     .filter((e): e is Expense => e !== null)
     .sort((a, b) => b.createdAt - a.createdAt); // newest first (list view)
 
+  const payments: Payment[] = (data.payments ?? [])
+    .filter((r) => r.deleted !== true)
+    .map(mapPayment)
+    .filter((p): p is Payment => p !== null)
+    .sort((a, b) => b.createdAt - a.createdAt); // newest first (list view)
+
   // Singleton group row lives at META_ID; fall back to the first row for any
   // legacy/leftover meta row so the name is read deterministically.
   const metaRows = data.meta ?? [];
   const metaRow = metaRows.find((r) => r.id === META_ID) ?? metaRows[0];
   const name = str(metaRow?.groupName);
-  return { name, people, expenses };
+  return { name, people, expenses, payments };
 }
 
 export interface BalticiActions {
   setGroupName(name: string): void;
   addPerson(name: string): void;
   renamePerson(personId: PersonId, name: string): void;
-  /** Returns false (and does nothing) if the person is referenced by any expense. */
+  /** Returns false (and does nothing) if the person is referenced by any
+   *  expense or payment. */
   removePerson(personId: PersonId): boolean;
   canRemovePerson(personId: PersonId): boolean;
   addExpense(draft: ExpenseDraft): ExpenseValidationError | null;
@@ -107,6 +141,12 @@ export interface BalticiActions {
     draft: ExpenseDraft
   ): ExpenseValidationError | null;
   removeExpense(expenseId: string): void;
+  /** "I've settled up" claim: freezes a who-owes line as a PENDING payment. */
+  addPayment(draft: PaymentDraft): PaymentValidationError | null;
+  /** Secret-word decision on a pending claim: archive it (affects balances)… */
+  confirmPayment(paymentId: string): void;
+  /** …or drop it without a trace (the debt reappears intact). */
+  rejectPayment(paymentId: string): void;
 }
 
 export interface UseBalticiResult {
@@ -126,6 +166,7 @@ export function useBaltici(): UseBalticiResult {
   const { isLoading, error, data } = database.useQuery({
     people: {},
     expenses: {},
+    payments: {},
     meta: {},
   });
 
@@ -202,14 +243,23 @@ export function useBaltici(): UseBalticiResult {
         );
       },
       canRemovePerson(personId) {
-        return !state.expenses.some((e) =>
-          personIdsInExpense(e).includes(personId)
+        return (
+          !state.expenses.some((e) =>
+            personIdsInExpense(e).includes(personId)
+          ) &&
+          !state.payments.some((p) =>
+            personIdsInPayment(p).includes(personId)
+          )
         );
       },
       removePerson(personId) {
-        const referenced = state.expenses.some((e) =>
-          personIdsInExpense(e).includes(personId)
-        );
+        const referenced =
+          state.expenses.some((e) =>
+            personIdsInExpense(e).includes(personId)
+          ) ||
+          state.payments.some((p) =>
+            personIdsInPayment(p).includes(personId)
+          );
         if (referenced) return false;
         database.transact(
           database.tx.people[personId].update({ deleted: true })
@@ -225,6 +275,37 @@ export function useBaltici(): UseBalticiResult {
       removeExpense(expenseId) {
         database.transact(
           database.tx.expenses[expenseId].update({ deleted: true })
+        );
+      },
+      addPayment(draft) {
+        const err = validatePayment(draft, peopleIds(), state.payments);
+        if (err) return err;
+        database.transact(
+          database.tx.payments[id()].update({
+            fromId: draft.fromId,
+            toId: draft.toId,
+            amountCents: draft.amountCents,
+            method: draft.method.trim(),
+            status: "pending",
+            createdAt: nowStamp(state),
+            deleted: false,
+          })
+        );
+        return null;
+      },
+      confirmPayment(paymentId) {
+        // Only a live pending claim can be archived (guards a stale click).
+        const p = state.payments.find((x) => x.id === paymentId);
+        if (!p || p.status !== "pending") return;
+        database.transact(
+          database.tx.payments[paymentId].update({ status: "confirmed" })
+        );
+      },
+      rejectPayment(paymentId) {
+        const p = state.payments.find((x) => x.id === paymentId);
+        if (!p || p.status !== "pending") return;
+        database.transact(
+          database.tx.payments[paymentId].update({ deleted: true })
         );
       },
     };
@@ -248,6 +329,7 @@ function nowStamp(state: GroupState): number {
   const stamps = [
     ...state.people.map((p) => p.createdAt),
     ...state.expenses.map((e) => e.createdAt),
+    ...state.payments.map((p) => p.createdAt),
     Date.now(),
   ];
   return Math.max(...stamps) + 1;

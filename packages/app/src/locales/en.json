@@ -166,6 +166,24 @@
         "wordPlaceholder": "Secret word",
         "unlock": "UNLOCK",
         "wrong": "Wrong word."
+      },
+      "settle": {
+        "button": "✓ I'VE SETTLED UP",
+        "modalTitle": "I've settled up",
+        "pickDebt": "Which debt did you settle?",
+        "noDebts": "Nothing to settle right now — either all even, or already waiting for confirmation.",
+        "method": "How did you settle?",
+        "methodPlaceholder": "e.g. PayPal, bank transfer, cash",
+        "submit": "MARK AS SETTLED",
+        "cancel": "CANCEL",
+        "errPick": "Pick the debt you settled.",
+        "errMethod": "Say how you settled it.",
+        "errGeneric": "Couldn't record this settle-up. Reload and try again.",
+        "via": "settled via {{method}}",
+        "pending": "WAITING FOR CONFIRMATION",
+        "settled": "SETTLED",
+        "confirm": "OK, SETTLED",
+        "reject": "NOT SETTLED"
       }
     }
   }
