@@ -11,6 +11,7 @@ import BalticiHome from "./pages/baltici/BalticiHome";
 import BalticiExpenses from "./pages/baltici/BalticiExpenses";
 import BalticiAddExpense from "./pages/baltici/BalticiAddExpense";
 import BalticiSettleUp from "./pages/baltici/BalticiSettleUp";
+import BalticiSettledDebts from "./pages/baltici/BalticiSettledDebts";
 import BalticiPeople from "./pages/baltici/BalticiPeople";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="expenses/new" element={<BalticiAddExpense />} />
           <Route path="expenses/:id/edit" element={<BalticiAddExpense />} />
           <Route path="who-owes" element={<BalticiSettleUp />} />
+          <Route path="settled" element={<BalticiSettledDebts />} />
           <Route path="people" element={<BalticiPeople />} />
         </Route>
       </Routes>

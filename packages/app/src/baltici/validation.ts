@@ -1,8 +1,8 @@
-// Baltici — expense validation. Pure; reused by the store (guard before writing)
-// and by unit tests. Prevents illegal states (e.g. equal split with no
+// Baltici — expense/payment validation. Pure; reused by the store (guard before
+// writing) and by unit tests. Prevents illegal states (e.g. equal split with no
 // participants → shareOf would divide by zero; exact shares not summing to total).
 
-import { type PersonId } from "./model";
+import { type Payment, type PersonId } from "./model";
 
 export interface EqualDraft {
   splitMode: "equal";
@@ -67,5 +67,47 @@ export function validateExpense(
     sum += share;
   }
   if (sum !== draft.amountCents) return "shares-mismatch";
+  return null;
+}
+
+export interface PaymentDraft {
+  fromId: PersonId; // debtor
+  toId: PersonId; // creditor
+  amountCents: number;
+  method: string;
+}
+
+export type PaymentValidationError =
+  | "bad-people"
+  | "bad-amount"
+  | "no-method"
+  | "duplicate-pending";
+
+/** Returns null when valid, otherwise the first error found. `payments` are the
+ *  live (non-deleted) ones — only one PENDING claim per from→to pair may exist.
+ *  NOTE: the duplicate-pending guard is client-side (no server): two devices
+ *  claiming the same pair simultaneously can both pass. Realtime sync keeps the
+ *  window tiny, and the confirmer simply rejects the extra claim. */
+export function validatePayment(
+  draft: PaymentDraft,
+  peopleIds: ReadonlySet<PersonId>,
+  payments: readonly Payment[]
+): PaymentValidationError | null {
+  if (
+    !peopleIds.has(draft.fromId) ||
+    !peopleIds.has(draft.toId) ||
+    draft.fromId === draft.toId
+  )
+    return "bad-people";
+  if (!Number.isInteger(draft.amountCents) || draft.amountCents <= 0)
+    return "bad-amount";
+  if (draft.method.trim() === "") return "no-method";
+  const dup = payments.some(
+    (p) =>
+      p.status === "pending" &&
+      p.fromId === draft.fromId &&
+      p.toId === draft.toId
+  );
+  if (dup) return "duplicate-pending";
   return null;
 }

@@ -59,9 +59,16 @@ export function shareOf(
 }
 
 /**
- * Net balance per person over all expenses, in cents.
- * net = sum(paid as payer) − sum(owed shares).
+ * Net balance per person over all expenses and CONFIRMED payments, in cents.
+ * net = sum(paid as payer) − sum(owed shares) + settled transfers.
  * > 0 → in credit (the group owes them), < 0 → in debt.
+ *
+ * A confirmed payment is a transfer from → to: the debtor handed money over
+ * (their balance rises toward zero), the creditor received it (theirs falls).
+ * Pending payments have no effect — the debt stays counted until confirmed.
+ * If new expenses shrank the debt below the frozen snapshot before the claim
+ * was confirmed, the transfer can push the debtor into credit — correct, since
+ * that amount really changed hands.
  */
 export function balances(state: GroupState): Record<PersonId, number> {
   const net: Record<PersonId, number> = {};
@@ -73,6 +80,12 @@ export function balances(state: GroupState): Record<PersonId, number> {
     for (const [pid, share] of Object.entries(shares)) {
       net[pid] = (net[pid] ?? 0) - share;
     }
+  }
+
+  for (const pay of state.payments) {
+    if (pay.status !== "confirmed") continue;
+    net[pay.fromId] = (net[pay.fromId] ?? 0) + pay.amountCents;
+    net[pay.toId] = (net[pay.toId] ?? 0) - pay.amountCents;
   }
   return net;
 }

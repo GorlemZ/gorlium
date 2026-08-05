@@ -38,10 +38,36 @@ export interface ExactExpense extends ExpenseBase {
 
 export type Expense = EqualExpense | ExactExpense;
 
+export type PaymentStatus = "pending" | "confirmed";
+
+/**
+ * A settle-up claim, in two phases. Anyone can create one ("I've settled up"):
+ * it freezes a who-owes line (from → to, amount snapshot at click time) plus a
+ * free-text method (PayPal, cash, …). It only affects balances once CONFIRMED
+ * with the secret word; a rejected claim is soft-deleted without a trace.
+ * A confirmed payment acts as a money transfer from → to (it is NOT an expense:
+ * the trip total ignores it).
+ */
+export interface Payment {
+  id: string;
+  fromId: PersonId; // debtor (who claims they paid)
+  toId: PersonId; // creditor (who received the money)
+  amountCents: number; // frozen at claim time, > 0
+  method: string; // how it was settled (free text)
+  status: PaymentStatus;
+  createdAt: number;
+}
+
+/** Everyone referenced by a payment. Blocks removing a person involved in one. */
+export function personIdsInPayment(p: Payment): PersonId[] {
+  return [p.fromId, p.toId];
+}
+
 export interface GroupState {
   name: string;
   people: Person[]; // canonical order (by createdAt) — see calc.shareOf
   expenses: Expense[];
+  payments: Payment[];
 }
 
 /** The people who share an expense — the single source of truth per split mode. */

@@ -28,6 +28,15 @@ export const schema = i.schema({
       createdAt: i.number(),
       deleted: i.boolean(), // soft-delete
     }),
+    payments: i.entity({
+      fromId: i.string(), // debtor
+      toId: i.string(), // creditor
+      amountCents: i.number(), // frozen at claim time
+      method: i.string(), // free text: PayPal, cash, …
+      status: i.string(), // "pending" | "confirmed" (rejected claims are soft-deleted)
+      createdAt: i.number(),
+      deleted: i.boolean(), // soft-delete
+    }),
     meta: i.entity({
       groupName: i.string(),
     }),

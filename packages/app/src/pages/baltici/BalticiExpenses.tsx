@@ -26,7 +26,7 @@ function BalticiExpenses() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
         <SectionTitle>{t("baltici.expenses.title")}</SectionTitle>
         <Link
           to="/secret-baltici/expenses/new"

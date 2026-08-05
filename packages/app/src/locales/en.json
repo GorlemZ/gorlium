@@ -91,6 +91,7 @@
         "home": "SUMMARY",
         "expenses": "EXPENSES",
         "whoOwes": "WHO OWES",
+        "settled": "SETTLED DEBTS",
         "people": "PEOPLE"
       },
       "notConfigured": {
@@ -166,6 +167,25 @@
         "wordPlaceholder": "Secret word",
         "unlock": "UNLOCK",
         "wrong": "Wrong word."
+      },
+      "settle": {
+        "button": "✓ I'VE SETTLED UP",
+        "modalTitle": "I've settled up",
+        "listTitle": "Settled debts",
+        "emptyList": "No settle-ups yet. Claim one with the button on a Who owes row.",
+        "pendingSection": "Waiting for confirmation",
+        "settledSection": "Settled",
+        "method": "How did you settle?",
+        "methodPlaceholder": "e.g. PayPal, bank transfer, cash",
+        "submit": "MARK AS SETTLED",
+        "cancel": "CANCEL",
+        "errMethod": "Say how you settled it.",
+        "errGeneric": "Couldn't record this settle-up. Reload and try again.",
+        "via": "settled via {{method}}",
+        "pending": "WAITING FOR CONFIRMATION",
+        "settled": "SETTLED",
+        "confirm": "OK, SETTLED",
+        "reject": "NOT SETTLED"
       }
     }
   }
