@@ -33,6 +33,7 @@ function BalticiLayout() {
             [t("baltici.tabs.home"), "/secret-baltici"],
             [t("baltici.tabs.expenses"), "/secret-baltici/expenses"],
             [t("baltici.tabs.whoOwes"), "/secret-baltici/who-owes"],
+            [t("baltici.tabs.settled"), "/secret-baltici/settled"],
             [t("baltici.tabs.people"), "/secret-baltici/people"],
           ]}
         />
