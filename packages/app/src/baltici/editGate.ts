@@ -31,7 +31,6 @@ export interface EditGate {
   unlocked: boolean;
   /** Unlocks for the session if `word` matches the secret; returns whether it did. */
   tryUnlock: (word: string) => boolean;
-  lock: () => void;
 }
 
 /** The fixed secret word combined with the session unlock state. */
@@ -50,6 +49,5 @@ export function useEditGate(): EditGate {
       }
       return false;
     },
-    lock: () => ctx.setUnlocked(false),
   };
 }
