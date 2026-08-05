@@ -159,6 +159,13 @@
         "empty": "Add people and expenses to see the balances.",
         "allEven": "All settled — nobody owes anything.",
         "hint": "Fewest payments to settle everything. Actual transfers happen among you."
+      },
+      "protection": {
+        "locked": "Editing is locked — enter the secret word.",
+        "editNote": "Enter the secret word to edit or delete this expense. Adding expenses is always open.",
+        "wordPlaceholder": "Secret word",
+        "unlock": "UNLOCK",
+        "wrong": "Wrong word."
       }
     }
   }

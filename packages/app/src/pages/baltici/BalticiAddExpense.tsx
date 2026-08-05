@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useBaltici } from "../../baltici/store";
+import { useEditGate } from "../../baltici/editGate";
+import { UnlockBar } from "../../baltici/editGateUI";
 import { SectionTitle, PAPER, INK } from "../../baltici/components/atoms";
 import {
   Label,
@@ -38,6 +40,7 @@ function BalticiAddExpense() {
   const navigate = useNavigate();
   const { id: editId } = useParams();
   const { state, actions } = useBaltici();
+  const gate = useEditGate();
 
   const editing = editId ? state.expenses.find((e) => e.id === editId) : undefined;
 
@@ -132,6 +135,26 @@ function BalticiAddExpense() {
 
   if (state.people.length === 0) {
     return <p style={{ font: `400 14px/1.5 ${mono}` }}>{t("baltici.expense.needPeople")}</p>;
+  }
+
+  // Editing an existing expense is gated by the secret word; adding a new one is free.
+  if (editing && !gate.canEdit) {
+    return (
+      <div style={{ maxWidth: 520 }}>
+        <SectionTitle>{t("baltici.expense.editTitle")}</SectionTitle>
+        <UnlockBar />
+        <p style={{ font: `400 13px/1.5 ${mono}`, opacity: 0.75 }}>
+          {t("baltici.protection.editNote")}
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate("/secret-baltici/expenses")}
+          style={{ font: `400 13px/1 ${mono}`, border: "1.5px solid currentColor", background: "transparent", color: "inherit", padding: "12px 18px", cursor: "pointer", marginTop: 8 }}
+        >
+          {t("baltici.expense.cancel")}
+        </button>
+      </div>
+    );
   }
 
   const perHead =

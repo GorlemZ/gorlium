@@ -3,6 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { isConfigured } from "../baltici/db";
 import { ErrorBoundary } from "../baltici/components/ErrorBoundary";
+import { EditGateProvider } from "../baltici/editGateUI";
 
 // Baltici area chrome — mirrors TerrariumLayout. When InstantDB isn't configured
 // (no app ID at build time) we render a short setup notice instead of the pages,
@@ -38,7 +39,9 @@ function BalticiLayout() {
         <div style={{ width: "100%", padding: "0 12px 40px", boxSizing: "border-box" }}>
           {isConfigured ? (
             <ErrorBoundary fallback={<GenericError />}>
-              <Outlet />
+              <EditGateProvider>
+                <Outlet />
+              </EditGateProvider>
             </ErrorBoundary>
           ) : (
             <NotConfigured />
