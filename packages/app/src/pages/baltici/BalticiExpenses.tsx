@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useBaltici } from "../../baltici/store";
+import { useEditGate } from "../../baltici/editGate";
+import { UnlockBar } from "../../baltici/editGateUI";
 import { Row, EmptyState, SectionTitle } from "../../baltici/components/atoms";
 import { formatEuro } from "../../baltici/money";
 import { participantsOf, type Expense, type Person } from "../../baltici/model";
@@ -18,6 +20,7 @@ function BalticiExpenses() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, actions } = useBaltici();
+  const gate = useEditGate();
 
   const nameOf = (id: string) => state.people.find((p) => p.id === id)?.name ?? "?";
 
@@ -33,6 +36,8 @@ function BalticiExpenses() {
         </Link>
       </div>
 
+      <UnlockBar />
+
       {state.expenses.length === 0 && <EmptyState>{t("baltici.expenses.empty")}</EmptyState>}
 
       {state.expenses.map((e) => (
@@ -45,24 +50,26 @@ function BalticiExpenses() {
             </div>
           </div>
           <div style={{ font: `700 14px/1 ${mono}`, whiteSpace: "nowrap" }}>{formatEuro(e.amountCents)}</div>
-          <div style={{ display: "flex", gap: 6 }}>
-            <button
-              type="button"
-              onClick={() => navigate(`/secret-baltici/expenses/${e.id}/edit`)}
-              style={btnStyle}
-              aria-label={t("baltici.expenses.edit")}
-            >
-              {t("baltici.expenses.edit")}
-            </button>
-            <button
-              type="button"
-              onClick={() => actions.removeExpense(e.id)}
-              style={btnStyle}
-              aria-label={t("baltici.expenses.remove")}
-            >
-              {t("baltici.expenses.remove")}
-            </button>
-          </div>
+          {gate.canEdit && (
+            <div style={{ display: "flex", gap: 6 }}>
+              <button
+                type="button"
+                onClick={() => navigate(`/secret-baltici/expenses/${e.id}/edit`)}
+                style={btnStyle}
+                aria-label={t("baltici.expenses.edit")}
+              >
+                {t("baltici.expenses.edit")}
+              </button>
+              <button
+                type="button"
+                onClick={() => actions.removeExpense(e.id)}
+                style={btnStyle}
+                aria-label={t("baltici.expenses.remove")}
+              >
+                {t("baltici.expenses.remove")}
+              </button>
+            </div>
+          )}
         </Row>
       ))}
     </div>
