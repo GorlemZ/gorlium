@@ -13,12 +13,14 @@ import BalticiAddExpense from "./pages/baltici/BalticiAddExpense";
 import BalticiSettleUp from "./pages/baltici/BalticiSettleUp";
 import BalticiSettledDebts from "./pages/baltici/BalticiSettledDebts";
 import BalticiPeople from "./pages/baltici/BalticiPeople";
+import GarmentPreview from "./pages/GarmentPreview";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Hub />} />
+        <Route path="/garment-preview" element={<GarmentPreview />} />
         <Route path="/terrariums" element={<TerrariumLayout />}>
           <Route index element={<TerrariumHome />} />
           <Route path="gallery" element={<Terrariums />} />
